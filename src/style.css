@@ -51,7 +51,7 @@ p {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: var(--ink) url('/assets/couple-key.webp') center / cover;
+  background: var(--ink) url('/assets/hero-a-poster.webp') center / cover;
   filter: blur(24px) brightness(0.6);
 }
 
@@ -250,16 +250,32 @@ p {
   padding-bottom: 64px;
 }
 
-/* Stand-in for the hero loop video; it fades into ivory behind the text. */
-.hero-still {
+/* Two stacked loops: the couple facing each other, then the flower shower crossfades in. */
+.hero-media {
   position: absolute;
-  inset: 0 0 auto;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: 58%;
+  height: 100%;
   object-fit: cover;
   object-position: top center;
-  opacity: 0.9;
-  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+
+.hero-b {
+  opacity: 0;
+}
+
+/* Extra ivory haze where the text sits. */
+.hero-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 35%, rgb(250 240 222 / 0.55) 55%, rgb(250 240 222 / 0.8));
 }
 
 .hero-text {
