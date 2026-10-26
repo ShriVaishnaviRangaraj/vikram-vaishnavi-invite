@@ -1,17 +1,50 @@
 import { animate, stagger, utils } from 'animejs'
 
+// A plays one full pass; on its wrap, B (the flower shower) crossfades in over it and keeps looping.
+function crossfadeAfterFirstPass(a, b) {
+  a.addEventListener(
+    'playing',
+    () => {
+      b.preload = 'auto'
+      b.load()
+    },
+    { once: true },
+  )
+
+  let last = 0
+  const onTime = () => {
+    if (a.currentTime >= last) {
+      last = a.currentTime
+      return
+    }
+    a.removeEventListener('timeupdate', onTime)
+    b.play()
+      .then(async () => {
+        await animate(b, { opacity: 1, duration: 1500, ease: 'inOutQuad' })
+        a.pause()
+      })
+      .catch(() => {})
+  }
+  a.addEventListener('timeupdate', onTime)
+}
+
 // The hero waits hidden under the gate, then surfaces out of the gate video's closing mist.
 export function setupHero(hero, { reduceMotion }) {
-  const still = hero.querySelector('.hero-still')
+  const media = hero.querySelector('.hero-media')
+  const [a, b] = media.querySelectorAll('video')
   const lines = hero.querySelectorAll('.hero-text > *')
-  utils.set([still, ...lines], { opacity: 0 })
+  utils.set([media, ...lines], { opacity: 0 })
+  // Reduced motion keeps A's poster as a still.
+  if (reduceMotion) a.preload = 'none'
 
   return function revealHero() {
     if (reduceMotion) {
-      animate([still, ...lines], { opacity: 1, duration: 600, ease: 'linear' })
+      animate([media, ...lines], { opacity: 1, duration: 600, ease: 'linear' })
       return
     }
-    animate(still, {
+    a.play().catch(() => {})
+    crossfadeAfterFirstPass(a, b)
+    animate(media, {
       opacity: 1,
       scale: [1.06, 1],
       filter: ['blur(14px)', 'blur(0px)'],

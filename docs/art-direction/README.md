@@ -107,3 +107,81 @@ Still prompt:
 ```text
 Front view, perfectly symmetrical composition: a tall, ornately carved dark teak South Indian temple door, closed, its two door leaves meeting in a straight vertical seam exactly at the horizontal centre of the image. Each leaf has carved square panels with lotus motifs and rows of brass bosses. Above the doorway hangs a toran of fresh mango and banana leaves with strings of orange and yellow marigolds and white jasmine. Tall banana plants frame both sides of the doorway, with brass oil lamps on the floor. Two richly caparisoned temple elephants with gold nettipattam face plates and marigold garlands stand in front of the door, one on the left leaf and one on the right leaf, mirror images of each other, facing the centre with trunks curled up in greeting; neither elephant crosses the centre line, which stays clear. Hand-painted storybook style matching the reference image: delicate pencil linework, warm translucent watercolour washes, soft diffused light, subtle paper texture. Warm ivory, muted gold, rose and teak palette. The painting fills the frame edge to edge. No people, no text, no border, no frame.
 ```
+
+## Hero loop
+
+From "Generate the hero loop video"
+([#7](https://github.com/bontaramsonta/vikram-vaishnavi-invite/issues/7)).
+
+Two stacked loops. **A**, the couple facing each other before the gopuram, plays one full pass as the hero fades in out of the gate mist. On A's wrap, **B**, the couple side by side under a flower shower, crossfades in over 1.5 s and keeps looping (`src/hero.js`). Reduced motion shows A's poster as a still.
+
+| File | Use |
+|---|---|
+| `docs/art-direction/hero-a-still.png` | A's start and end frame, 1536×2720 |
+| `docs/art-direction/hero-a-master.mp4` | A as generated, 720×1276, 7 s |
+| `docs/art-direction/hero-b-still.png` | B without petals, 1536×2720. Input to the petal still. |
+| `docs/art-direction/hero-b-petals-still.png` | B's start and end frame, 1536×2720 |
+| `docs/art-direction/hero-b-master.mp4` | B as generated, 720×1276, 7 s |
+| `public/assets/hero-a.mp4` · `hero-a-poster.webp` | Web copy, 6.04 s, ~490 KB · its first frame, ~26 KB. The poster is also the desktop backdrop. |
+| `public/assets/hero-b.mp4` · `hero-b-poster.webp` | Web copy, 6.04 s, ~1.15 MB · its first frame, ~40 KB |
+
+### Generation
+
+| Asset | Model | Settings | Job | Seed |
+|---|---|---|---|---|
+| `hero-a-still.png` | `seedream_v5_pro` | 9:16, 2k, `couple-key.png` as the only reference | `827b7f46-9779-4748-af43-4ff54812df1b` | 434132 |
+| `hero-b-still.png` | `seedream_v5_pro` | 9:16, 2k, `couple-key.png` as the only reference | `5393658c-949d-4f41-a7d6-0ecb181acc13` | 835715 |
+| `hero-b-petals-still.png` | `seedream_v5_pro` | 9:16, 2k, references `hero-b-still.png` then `couple-key.png` | `35141f7d-b365-4f30-9c55-22bcb8bdafd4` | 867069 |
+| `hero-a-master.mp4` | `kling3_0` | `--mode std --duration 7 --aspect_ratio 9:16 --sound off`, start and end `hero-a-still.png` | `3b1721b1-de12-43db-8a34-17c61b872f22` | not returned |
+| `hero-b-master.mp4` | `kling3_0` | same, start and end `hero-b-petals-still.png` | `779ae1ba-4a2b-4ee0-bb16-3ae9ab605deb` | not returned |
+
+The same start and end frame makes Kling land back where it began. The B prompt asks for a steady rain, but Kling made it a toss: a handful of petals bursts from the top, showers the couple and clears, once per loop.
+
+### Transcode
+
+Each master is cut to a seamless loop: frames 24–168, with the last second crossfaded into frames 0–23, so the wrap is a single source-frame step. The same pass scales to 720×1280 and blends in 30% ivory (`#FAF0DE`) for haze.
+
+```bash
+HAZE="lutrgb=r='val*0.7+250*0.3':g='val*0.7+240*0.3':b='val*0.7+222*0.3'"
+LOOP="[0:v]split[m][h];[m]trim=start_frame=24,setpts=PTS-STARTPTS[main];[h]trim=end_frame=24,setpts=PTS-STARTPTS[head];[main][head]xfade=transition=fade:duration=1:offset=5.0417,scale=720:1280,setsar=1,$HAZE,format=yuv420p[v]"
+ENC="-an -c:v libx264 -preset slow -crf 20 -profile:v high -pix_fmt yuv420p -movflags +faststart"
+
+ffmpeg -i hero-a-master.mp4 -filter_complex "$LOOP" -map "[v]" $ENC hero-a.mp4
+
+# B is rotated by 60 frames so it fades in on the calm stretch and the toss lands ~3 s later.
+ffmpeg -i hero-b-master.mp4 -filter_complex "$LOOP" -map "[v]" -c:v libx264 -crf 0 loop-b.mkv
+ffmpeg -i loop-b.mkv -filter_complex "[0:v]split[x][y];[x]trim=start_frame=60,setpts=PTS-STARTPTS[late];[y]trim=end_frame=60,setpts=PTS-STARTPTS[early];[late][early]concat=n=2:v=1[v]" -map "[v]" $ENC hero-b.mp4
+
+# Posters: the first frame of each loop.
+ffmpeg -i hero-a.mp4 -frames:v 1 a.png && cwebp -q 80 a.png -o hero-a-poster.webp
+```
+
+Still A prompt:
+
+```text
+Soft watercolour wedding illustration of the same South Indian couple shown in the reference image, keeping their faces, hair, build and outfits identical. They stand together in the upper half of the frame, seen from the knees up, turned toward each other in three-quarter view, holding hands, gazing at each other with gentle smiles. Behind them, far in the distance, a tall South Indian temple gopuram rises through soft morning mist, pale and faint. Tall banana plants with broad leaves frame both sides, softly painted. Hazy, washed-out, very light and airy: low contrast, pastel ivory and muted gold tones, as if seen through warm morning mist. The lower forty percent of the image dissolves into plain warm ivory mist with nothing in it, and the top and outer edges also bleed softly into ivory. Hand-painted storybook style: delicate pencil linework, warm translucent washes, soft diffused light, subtle paper texture. No text, no border, no frame.
+```
+
+Still B prompt:
+
+```text
+Soft watercolour wedding illustration of the same South Indian couple shown in the reference image, keeping their faces, hair, build and outfits identical. They walk slowly side by side toward the viewer in the upper half of the frame, seen from the knees up, holding hands, she leaning her head slightly toward his shoulder, both smiling softly. Behind them a temple courtyard path leads back to a tall South Indian temple gopuram, pale and faint in soft morning mist. Tall banana plants with broad leaves and a few hanging marigold garlands line both sides. Hazy, washed-out, very light and airy: low contrast, pastel ivory and muted gold tones, as if seen through warm morning mist. The lower forty percent of the image dissolves into plain warm ivory mist with nothing in it, and the top and outer edges also bleed softly into ivory. Hand-painted storybook style: delicate pencil linework, warm translucent washes, soft diffused light, subtle paper texture. No text, no border, no frame.
+```
+
+Petal still prompt:
+
+```text
+Keep the first reference image exactly as it is: the same couple, the same pose, faces, outfits, temple path, gopuram, banana plants, framing and soft hazy watercolour look. Add only a gentle shower of flower petals falling from the top of the frame around and over the couple: loose rose-pink and crimson rose petals, orange and yellow marigold petals and small white jasmine blossoms, scattered sparsely through the upper two thirds of the image, at different depths, a few drifting past their shoulders and some landing in her hair, as if guests just out of view are showering them with flowers. The petals are painted in the same loose watercolour as the rest, soft and slightly translucent, not sharp. The lower forty percent stays plain warm ivory mist. Hand-painted storybook style: delicate pencil linework, warm translucent washes, soft diffused light, subtle paper texture. No text, no border, no frame.
+```
+
+Loop A prompt:
+
+```text
+Locked-off camera, no camera movement, no zoom. A calm, gentle living-painting loop. A soft warm breeze moves through the scene: the broad banana leaves on both sides sway slowly, the loose end of her silk saree and the jasmine in her hair stir lightly, and thin wisps of ivory morning mist drift slowly sideways across the gopuram and the ground. The couple stay standing in place holding hands; they breathe softly, she smiles and tilts her head very slightly toward him, he leans a touch closer, then both settle back into exactly the pose of the first frame. Subtle, slow, dreamy motion only; no walking, no turning around, no new objects or people. Hand-painted watercolour storybook style, matching the first frame exactly, staying hazy and washed out.
+```
+
+Loop B prompt:
+
+```text
+Locked-off camera, no camera movement, no zoom. A calm, gentle living-painting loop of a flower shower. Throughout the whole clip, a steady, continuous rain of rose, marigold and jasmine petals falls slowly from the top of the frame, fluttering and tumbling down past the couple and drifting out of view, with new petals constantly entering from the top edge, as if guests just out of view are showering the couple with flowers. A soft breeze sways the banana leaves and marigold garlands and stirs the loose end of her saree; thin ivory mist drifts across the temple path. The couple stay in place holding hands; she nestles her head against his shoulder and smiles, he glances down at her warmly, both delighted by the petals, then they settle back into exactly the pose of the first frame. Subtle, slow, dreamy motion; they do not walk forward, no new people visible, no camera shake. Hand-painted watercolour storybook style, matching the first frame exactly, staying hazy and washed out.
+```
