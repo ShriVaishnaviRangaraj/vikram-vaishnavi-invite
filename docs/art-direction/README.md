@@ -74,13 +74,14 @@ All Google Fonts.
 From "Generate the gate door, split into swingable halves"
 ([#6](https://github.com/bontaramsonta/vikram-vaishnavi-invite/issues/6)).
 
-The gate is a video. Splitting the still into two 3D-rotated halves made the elephants swing with the doors and look flat. In the clip the doors open inward behind the elephants, which stay put.
+The gate is a video. Splitting the still into two 3D-rotated halves made the elephants swing with the doors and look flat. In the clip the elephants raise their trunks, the doors open inward behind them, and the camera pushes through the doorway into ivory mist. The hero fades in out of that mist (`src/hero.js`).
 
 | File | Use |
 |---|---|
 | `docs/art-direction/gate-door.png` | Closed-door still, 1536×2720. The video's start frame. |
-| `docs/art-direction/gate-open-master.mp4` | Video as generated, 720×1276, 5 s, 7.6 MB |
-| `public/assets/gate-open.mp4` | Web copy: H.264 High, CRF 25, no audio, faststart, ~1 MB |
+| `docs/art-direction/gate-open-master.mp4` | Video as generated, 720×1276, 5 s, 6.4 MB |
+| `docs/art-direction/gate-mist-end.jpg` | End frame passed to the video, a flat ivory radial gradient |
+| `public/assets/gate-open.mp4` | Web copy, sped up 1.7× to about 3 s to match the reference gate: `-vf "setpts=PTS/1.7,fps=24"`, H.264 High, CRF 25, no audio, faststart, ~720 KB |
 | `public/assets/gate-poster.webp` | The video's first frame, used as the poster and preloaded |
 
 ### Still
@@ -92,12 +93,13 @@ The gate is a video. Splitting the still into two 3D-rotated halves made the ele
 
 ### Video
 
-- **Model:** Kling 3.0 (`kling3_0`), `--mode std --duration 5 --aspect_ratio 9:16 --sound off`, `--start-image gate-door.png`
-- **Job:** `c4eff9c5-8400-4730-9157-dda8771d3596`. No seed is returned.
+- **Model:** Kling 3.0 (`kling3_0`), `--mode std --duration 5 --aspect_ratio 9:16 --sound off`, `--start-image gate-door.png --end-image gate-mist-end.jpg`
+- **Job:** `ad1b7610-96ae-4528-8dba-72c33e9856e6`. No seed is returned.
+- Without the end frame the clip stops with the door edges still in view.
 - The Basic plan rejects Seedance 2.5 and Kling `--mode pro` ("Pro or Ultimate plan required"). Kling `std` works.
 
 ```text
-Locked-off static camera, no camera movement, no zoom. The two carved teak temple door leaves slowly swing open inward, away from the viewer, hinged at their outer edges, parting from the centre seam. The two decorated elephants stay exactly where they are in front of the doorway, standing still, only gently swaying their ears and lifting their trunks in greeting; they do not move with the doors. The marigold toran and banana leaves sway slightly. As the doors open, soft warm white light and drifting ivory mist pour through the doorway toward the viewer, and in the last second the mist fills the entire frame until the image is a soft, even ivory white. Hand-painted watercolour storybook style throughout, matching the first frame exactly.
+Slow, smooth camera dolly forward toward the centre of the doorway. The two carved teak door leaves swing open inward, away from the viewer, hinged at their outer edges. The two elephants stand perfectly still like temple statues, mouths closed, and in one calm, graceful motion both raise their trunks straight up in salute and hold them there; no other elephant movement, no head turning, no open mouths, no ear flapping. As the doors part, soft warm white light and dense ivory mist pour out through the doorway. The camera keeps moving forward through the open doorway into the mist, the elephants and the door frame sliding out past the edges of the frame, until the whole frame is soft, even ivory-white mist with nothing else visible. Hand-painted watercolour storybook style, matching the first frame exactly.
 ```
 
 Still prompt:
