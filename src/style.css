@@ -51,7 +51,7 @@ p {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: radial-gradient(circle at 50% 30%, #6b5644, #2a211c 70%);
+  background: var(--ink) url('/assets/couple-key.webp') center / cover;
   filter: blur(24px) brightness(0.6);
 }
 
@@ -83,8 +83,9 @@ p {
 }
 
 .monogram {
-  font-family: var(--script);
-  font-size: 1.6rem;
+  font-family: var(--caps);
+  font-size: 0.95rem;
+  letter-spacing: 0.2em;
   color: var(--gold-deep);
   text-decoration: none;
 }
@@ -131,6 +132,7 @@ p {
 .menu a {
   padding: 10px 0;
   color: var(--ink);
+  font-family: var(--caps);
   font-size: 0.85rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -175,6 +177,7 @@ p {
   place-items: center;
   border: 1px dashed var(--gold);
   color: var(--gold-deep);
+  font-family: var(--caps);
   font-size: 0.75rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -250,6 +253,7 @@ p {
   bottom: 18%;
   width: 100%;
   color: var(--ivory);
+  font-family: var(--caps);
   font-size: 0.75rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
@@ -260,12 +264,16 @@ p {
   padding-bottom: 64px;
 }
 
-.hero-video {
+/* Stand-in for the hero loop video; it fades into ivory behind the text. */
+.hero-still {
   position: absolute;
-  inset: 0;
-  place-items: start center;
-  padding-top: 88px;
-  opacity: 0.6;
+  inset: 0 0 auto;
+  width: 100%;
+  height: 58%;
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0.9;
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
 }
 
 .hero-text {
@@ -273,6 +281,7 @@ p {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  text-shadow: 0 0 12px var(--ivory), 0 0 4px var(--ivory);
 }
 
 .names {
@@ -287,6 +296,8 @@ p {
 
 .scroll-cue {
   margin-top: 24px;
+  color: var(--gold-deep);
+  font-family: var(--caps);
   font-size: 0.7rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
@@ -326,6 +337,7 @@ p {
 }
 
 .countdown small {
+  font-family: var(--caps);
   font-size: 0.6rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -409,23 +421,25 @@ p {
 
 .card-maroon {
   color: var(--ivory);
-  background: #4a0f1c;
+  background: var(--maroon);
 }
 
 .card-maroon .label {
-  color: #d9b77e;
+  color: var(--gold);
 }
 
+/* Maroon on gold is 5:1; ivory on gold is only 2.3:1. */
 .btn-gold {
   display: inline-block;
   margin-top: 8px;
   padding: 12px 28px;
   border: 0;
   background: var(--gold);
-  color: var(--ivory);
-  font-family: var(--serif);
-  font-size: 0.8rem;
-  letter-spacing: 0.25em;
+  color: var(--maroon);
+  font-family: var(--caps);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
@@ -433,7 +447,7 @@ p {
 
 .bridge {
   color: var(--ivory);
-  background: #2f2119;
+  background: var(--ink);
 }
 
 .corridor {
@@ -446,7 +460,7 @@ p {
 
 .caption {
   position: relative;
-  color: #e8d3a8;
+  color: var(--cream);
 }
 
 .ornament {
@@ -464,12 +478,14 @@ p {
   gap: 16px;
   width: 100%;
   text-align: left;
+  accent-color: var(--maroon);
 }
 
 .rsvp-form label > span,
 .rsvp-form legend {
   display: block;
   margin-bottom: 4px;
+  font-family: var(--caps);
   font-size: 0.75rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;

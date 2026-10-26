@@ -53,6 +53,8 @@ higgsfield generate create seedream_v5_pro --prompt "$(cat prompt.txt)" \
 
 Sampled from the printed invite's ornaments, date and script text. The script colour is pulled toward the reel's rose-taupe.
 
+Gold buttons MUST carry maroon text (5:1). Ivory on gold is only 2.3:1.
+
 ## Type
 
 All Google Fonts.
