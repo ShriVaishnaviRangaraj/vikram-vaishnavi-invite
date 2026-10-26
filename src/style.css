@@ -346,8 +346,11 @@ p {
 }
 
 .divine-still {
+  display: block;
   width: calc(100% + 48px);
-  aspect-ratio: 4 / 5;
+  max-width: none;
+  height: auto;
+  mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
 }
 
 .timeline {
@@ -452,22 +455,54 @@ p {
   background: var(--ink);
 }
 
+/* Feathered into the ink background so the section edges never show a hard cut. */
 .corridor {
   position: absolute;
   inset: 0;
-  place-items: start center;
-  padding-top: 88px;
-  opacity: 0.25;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mask-image: linear-gradient(transparent, #000 15%, #000 85%, transparent);
+}
+
+/* Dims the corridor's bright vanishing point, which sits right behind the caption. */
+.bridge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 90% 24% at 50% 50%, rgb(42 33 28 / 0.75), transparent);
 }
 
 .caption {
   position: relative;
+  z-index: 1;
   color: var(--cream);
+  text-shadow: 0 1px 12px rgb(42 33 28 / 0.9);
 }
 
 .ornament {
   font-size: 2.4rem;
   color: var(--gold);
+}
+
+.rsvp {
+  isolation: isolate;
+  background: var(--ivory);
+}
+
+/* Multiply turns the still's paper white into the page ivory; the mask feathers its top edge. */
+.rsvp::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  aspect-ratio: 1080 / 1913;
+  background: url('/assets/gopuram.webp') center bottom / cover no-repeat;
+  mix-blend-mode: multiply;
+  mask-image: linear-gradient(transparent, #000 35%);
+  pointer-events: none;
 }
 
 .rsvp h2 {

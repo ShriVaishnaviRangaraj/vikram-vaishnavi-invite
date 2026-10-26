@@ -185,3 +185,62 @@ Loop B prompt:
 ```text
 Locked-off camera, no camera movement, no zoom. A calm, gentle living-painting loop of a flower shower. Throughout the whole clip, a steady, continuous rain of rose, marigold and jasmine petals falls slowly from the top of the frame, fluttering and tumbling down past the couple and drifting out of view, with new petals constantly entering from the top edge, as if guests just out of view are showering the couple with flowers. A soft breeze sways the banana leaves and marigold garlands and stirs the loose end of her saree; thin ivory mist drifts across the temple path. The couple stay in place holding hands; she nestles her head against his shoulder and smiles, he glances down at her warmly, both delighted by the petals, then they settle back into exactly the pose of the first frame. Subtle, slow, dreamy motion; they do not walk forward, no new people visible, no camera shake. Hand-painted watercolour storybook style, matching the first frame exactly, staying hazy and washed out.
 ```
+
+## Stills: divine scene, temple corridor, gopuram
+
+From "Generate the stills: divine scene, temple corridor, gopuram"
+([#8](https://github.com/bontaramsonta/vikram-vaishnavi-invite/issues/8)).
+
+All three stills use Seedream 5.0 Pro (`seedream_v5_pro`, `--resolution 2k`) with `couple-key.png` as the only reference, for style. Each still had two candidates, A and B; Sourav picked divine A, corridor A and gopuram B. The corridor then became a looping video.
+
+| File | Use |
+|---|---|
+| `docs/art-direction/divine.png` | Divine scene master, 1760×2352 (3:4) |
+| `public/assets/divine.webp` | Web copy, 1080×1443, ~115 KB. CSS feathers the top and bottom 12%. |
+| `docs/art-direction/corridor.png` | Corridor master, 1536×2720 (9:16). The video's start and end frame. |
+| `docs/art-direction/corridor-loop-master.mp4` | Video as generated, 720×1276, 5 s, 2.1 MB |
+| `public/assets/corridor-loop.mp4` | Web loop, 4.3 s, ~345 KB. CSS feathers it into the bridge's ink background. |
+| `public/assets/corridor-poster.webp` | The loop's first frame, used as the poster |
+| `docs/art-direction/gopuram.png` | Gopuram master, 1536×2720 (9:16) |
+| `public/assets/gopuram.webp` | Web copy, 1080×1913, ~40 KB. A `multiply` layer behind the RSVP form, so its paper white becomes the page ivory, with a mask that feathers the top. |
+
+| Still | Aspect | Seed | Job |
+|---|---|---|---|
+| Divine scene | 3:4 | 802228 | `d85a97db-9b54-401f-b572-71b8be944323` |
+| Temple corridor | 9:16 | 708101 | `052f4887-eaf5-49f4-aa73-600991dcebc2` |
+| Gopuram | 9:16 | 360467 | `39eb3f2a-2901-4a51-a64f-f41aa5a0dadf` |
+
+Divine scene prompt:
+
+```text
+Eye-level still life of a South Indian puja altar, centred and symmetrical. Two tall brass kuthuvilakku oil lamps with five lit wicks stand on either side. Between them a wide brass urli bowl of water floats white jasmine flowers and two open pink lotus blossoms. Small clay diyas and candles glow in front, with scattered rose petals and a few marigolds on a cream cloth. Warm golden candlelight. Hand-painted storybook style matching the reference image: delicate pencil linework, warm translucent watercolour washes, soft diffused light, subtle paper texture. Warm ivory, muted gold, rose and brass palette. The top and bottom of the painting fade softly into plain warm ivory paper, no hard edges. No people, no text, no border, no frame.
+```
+
+Temple corridor prompt:
+
+```text
+Looking straight down the centre of a long South Indian temple mandapam corridor at dusk. Rows of carved granite pillars with yali and lotus capitals line both sides and recede to a vanishing point. Strings of orange marigold and white jasmine garlands swag between the pillars. Brass oil lamps glow along the stone floor, and warm amber light fills the far end. Dark, warm and quiet: deep umber and maroon shadows with gold highlights. The centre of the frame is open, calm and uncluttered, leaving room for a line of text. Hand-painted storybook style matching the reference image: delicate pencil linework, warm translucent watercolour washes, soft diffused light, subtle paper texture. The top and bottom edges fade softly into deep warm brown shadow. No people, no text, no border, no frame.
+```
+
+Gopuram prompt:
+
+```text
+A faint South Indian temple gopuram tower seen from a distance, centred in the lower half of the frame, its base hidden in soft morning mist, a few coconut palms faint on either side. The tower is a pale silhouette of carved tiers in thin pencil lines and the lightest cream and gold watercolour washes, almost fading into the paper. The upper half is empty pale ivory sky. Very low contrast, washed out, like a watermark: nothing darker than light tan. Hand-painted storybook style matching the reference image: delicate pencil linework, warm translucent watercolour washes, soft diffused light, subtle paper texture. Everything fades into plain warm ivory paper at the edges. No people, no text, no border, no frame.
+```
+
+### Corridor loop
+
+- **Model:** Kling 3.0 (`kling3_0`), `--mode std --duration 5 --aspect_ratio 9:16 --sound off`. `corridor.png` is passed as both `--start-image` and `--end-image`, by its job id.
+- **Job:** `e055d0d7-02b1-459b-afd4-1546e539b33e`. No seed is returned.
+- The camera holds still. Only the flames, the far glow, the garlands and the haze move.
+- The clip's last frame does not match its first exactly, so the web copy crossfades the clip's last 0.75 s into its first 0.75 s. That leaves a seamless 4.3 s loop:
+
+```bash
+ffmpeg -i corridor-loop-master.mp4 -filter_complex \
+  "[0:v]split[a][b];[a]trim=start=0.75,setpts=PTS-STARTPTS[A];[b]trim=end=0.75,setpts=PTS-STARTPTS[B];[A][B]xfade=transition=fade:duration=0.75:offset=3.541667,format=yuv420p[v]" \
+  -map "[v]" -an -c:v libx264 -profile:v high -crf 23 -preset slow -movflags +faststart corridor-loop.mp4
+```
+
+```text
+Locked-off static camera, no camera movement at all, no zoom, no pan. The temple corridor stays exactly as in the first frame. Only gentle ambient motion: the small brass oil-lamp flames flicker softly, the warm glow at the far end breathes slowly brighter and dimmer, the marigold and jasmine garlands sway very slightly in a light breeze, and faint dust motes and thin incense haze drift through the warm light. Calm, quiet, sacred mood. The last frame matches the first frame exactly so the clip loops seamlessly. Hand-painted watercolour storybook style, matching the first frame exactly. No people.
+```
