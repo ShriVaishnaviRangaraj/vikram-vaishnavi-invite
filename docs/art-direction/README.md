@@ -68,3 +68,26 @@ All Google Fonts.
 ```html
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
 ```
+
+## Gate door
+
+From "Generate the gate door, split into swingable halves"
+([#6](https://github.com/bontaramsonta/vikram-vaishnavi-invite/issues/6)).
+
+| File | Use |
+|---|---|
+| `docs/art-direction/gate-door.png` | Master, 1536×2720 |
+| `public/assets/gate-door.webp` | Web copy, 1080×1913, ~470 KB, preloaded |
+
+- **Model:** Seedream 5.0 Pro (`seedream_v5_pro`), `--aspect_ratio 9:16 --resolution 2k`
+- **Seed:** 776325
+- **Job:** `e3cc3026-75fb-4131-8630-e1b3c802dd5d`
+- **Reference:** `couple-key.png`, for style only
+
+The door is one image. Each `.door` half draws the full image at twice its width (`.door::before`), so the seam is exact and no separate halves are exported. Behind the doors is an ivory mist, not a painted frame.
+
+Prompt:
+
+```text
+Front view, perfectly symmetrical composition: a tall, ornately carved dark teak South Indian temple door, closed, its two door leaves meeting in a straight vertical seam exactly at the horizontal centre of the image. Each leaf has carved square panels with lotus motifs and rows of brass bosses. Above the doorway hangs a toran of fresh mango and banana leaves with strings of orange and yellow marigolds and white jasmine. Tall banana plants frame both sides of the doorway, with brass oil lamps on the floor. Two richly caparisoned temple elephants with gold nettipattam face plates and marigold garlands stand in front of the door, one on the left leaf and one on the right leaf, mirror images of each other, facing the centre with trunks curled up in greeting; neither elephant crosses the centre line, which stays clear. Hand-painted storybook style matching the reference image: delicate pencil linework, warm translucent watercolour washes, soft diffused light, subtle paper texture. Warm ivory, muted gold, rose and teak palette. The painting fills the frame edge to edge. No people, no text, no border, no frame.
+```

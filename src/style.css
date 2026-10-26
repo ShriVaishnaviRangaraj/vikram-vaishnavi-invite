@@ -207,39 +207,71 @@ p {
   padding: 0;
   flex-direction: row;
   gap: 0;
-  perspective: 1200px;
-  background: #fff;
+  perspective: 1000px;
+  background: var(--ivory);
+  overflow: hidden;
 }
 
+.mist {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(closest-side, #fff, var(--ivory) 60%, rgb(250 240 222 / 0));
+  opacity: 0;
+}
+
+/* Each half shows its side of one full-gate image, so the seam is exact. */
 .door {
+  position: relative;
   flex: 1;
   height: 100%;
-  display: grid;
-  place-items: center;
-  background: repeating-linear-gradient(0deg, #7a4f2c 0 40px, #6a4325 40px 80px);
-  color: var(--ivory);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+
+.door::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  background: url('/assets/gate-door.webp') center / cover;
 }
 
 .door-left {
   transform-origin: left center;
-  border-right: 2px solid var(--gold);
 }
 
 .door-right {
   transform-origin: right center;
-  border-left: 2px solid var(--gold);
+}
+
+.door-right::before {
+  left: auto;
+  right: 0;
+}
+
+.door-shade {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.door-left .door-shade {
+  background: linear-gradient(to left, rgb(42 33 28 / 0.7), rgb(42 33 28 / 0.15));
+}
+
+.door-right .door-shade {
+  background: linear-gradient(to right, rgb(42 33 28 / 0.7), rgb(42 33 28 / 0.15));
 }
 
 .play-btn {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  inset: 0;
+  z-index: 1;
   width: 72px;
   height: 72px;
-  transform: translate(-50%, -50%);
+  margin: auto;
   border: 2px solid var(--gold);
   border-radius: 50%;
   background: var(--ivory);
@@ -250,9 +282,9 @@ p {
 
 .gate-hint {
   position: absolute;
-  bottom: 18%;
+  bottom: max(20px, env(safe-area-inset-bottom));
   width: 100%;
-  color: var(--ivory);
+  color: var(--gold-deep);
   font-family: var(--caps);
   font-size: 0.75rem;
   letter-spacing: 0.3em;
