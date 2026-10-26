@@ -1,8 +1,8 @@
-export function setupChrome({ musicButton, menuButton, menu }) {
-  // State only: the audio loop lands with "Generate the music loop" (#9).
+export function setupChrome({ musicButton, menuButton, menu, onMusic }) {
   const setMusic = (on) => {
     musicButton.setAttribute('aria-pressed', String(on))
     musicButton.setAttribute('aria-label', on ? 'Pause music' : 'Play music')
+    onMusic(on)
   }
   musicButton.addEventListener('click', () => {
     setMusic(musicButton.getAttribute('aria-pressed') !== 'true')
