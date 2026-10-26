@@ -46,7 +46,7 @@ higgsfield generate create seedream_v5_pro --prompt "$(cat prompt.txt)" \
 | `--ivory` | `#FAF0DE` | Page base |
 | `--cream` | `#F3E4C8` | Cards, surfaces |
 | `--gold` | `#C69951` | Rules, borders, ornaments, buttons on maroon. Not for text on ivory. |
-| `--gold-deep` | `#9E712D` | Serif caps and small gold text on ivory |
+| `--gold-deep` | `#8A6328` | Serif caps and small gold text on ivory. 4.8:1 on ivory, 4.2:1 on cream. |
 | `--rose-taupe` | `#8C5A5E` | Script names and headings |
 | `--maroon` | `#5C1A26` | Reception section background |
 | `--ink` | `#4A3A33` | Body text |
