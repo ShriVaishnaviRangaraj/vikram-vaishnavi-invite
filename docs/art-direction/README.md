@@ -197,9 +197,9 @@ All three stills use Seedream 5.0 Pro (`seedream_v5_pro`, `--resolution 2k`) wit
 |---|---|
 | `docs/art-direction/divine.png` | Divine scene master, 1760×2352 (3:4) |
 | `public/assets/divine.webp` | Web copy, 1080×1443, ~115 KB. CSS feathers the top and bottom 12%. |
-| `docs/art-direction/corridor.png` | Corridor master, 1536×2720 (9:16). The video's start and end frame. |
-| `docs/art-direction/corridor-loop-master.mp4` | Video as generated, 720×1276, 5 s, 2.1 MB |
-| `public/assets/corridor-loop.mp4` | Web loop, 4.3 s, ~345 KB. CSS feathers it into the bridge's ink background. |
+| `docs/art-direction/corridor.png` | Corridor master, 1536×2720 (9:16). The video's first and last frame. |
+| `docs/art-direction/corridor-loop-master.mp4` | Video as generated, 720×1280, 10 s, 9.2 MB, with an audio track the site does not use |
+| `public/assets/corridor-loop.mp4` | Web loop, 6.5 s, ~1.7 MB, no audio. CSS feathers it into the bridge's ink background. |
 | `public/assets/corridor-poster.webp` | The loop's first frame, used as the poster |
 | `docs/art-direction/gopuram.png` | Gopuram master, 1536×2720 (9:16) |
 | `public/assets/gopuram.webp` | Web copy, 1080×1913, ~40 KB. A `multiply` layer behind the RSVP form, so its paper white becomes the page ivory, with a mask that feathers the top. |
@@ -230,17 +230,19 @@ A faint South Indian temple gopuram tower seen from a distance, centred in the l
 
 ### Corridor loop
 
-- **Model:** Kling 3.0 (`kling3_0`), `--mode std --duration 5 --aspect_ratio 9:16 --sound off`. `corridor.png` is passed as both `--start-image` and `--end-image`, by its job id.
-- **Job:** `e055d0d7-02b1-459b-afd4-1546e539b33e`. No seed is returned.
-- The camera holds still. Only the flames, the far glow, the garlands and the haze move.
-- The clip's last frame does not match its first exactly, so the web copy crossfades the clip's last 0.75 s into its first 0.75 s. That leaves a seamless 4.3 s loop:
+An endless walk forward through the pillars, as in the reference reel's bridge.
 
-```bash
-ffmpeg -i corridor-loop-master.mp4 -filter_complex \
-  "[0:v]split[a][b];[a]trim=start=0.75,setpts=PTS-STARTPTS[A];[b]trim=end=0.75,setpts=PTS-STARTPTS[B];[A][B]xfade=transition=fade:duration=0.75:offset=3.541667,format=yuv420p[v]" \
-  -map "[v]" -an -c:v libx264 -profile:v high -crf 23 -preset slow -movflags +faststart corridor-loop.mp4
-```
+- **Model:** Gemini Omni 1.1 Flash (`gemini-omni-1.1-flash`) through the Gemini API's Interactions endpoint, `POST /v1beta/interactions`, with `response_format: {type: "video", aspect_ratio: "9:16", resolution: "720p"}`.
+- **Input:** `corridor.png`, as a 1080×1920 JPEG, passed twice: once as the first frame and once as the last. The camera advances exactly one bay of pillars, so the last frame lands on the first.
+- **Interaction:** `v1_ChdmU25mYXMtREI0SG42OTRQdGRQQjRRWRIXZlNuZmFzLURCNEhuNjk0UHRkUEI0UVk`. No seed is returned.
+- The model eases in and out: the camera starts near rest and peaks mid-clip. The web copy is retimed to a constant camera speed:
+  1. Measure per-frame camera speed as the median Farneback optical-flow magnitude (OpenCV).
+  2. Interpolate the clip to 96 fps with `minterpolate=fps=96:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1`.
+  3. Pick 156 frames at equal steps of cumulative camera progress, dropping the last frame because it repeats the first.
+  4. Encode at 24 fps with H.264 High, CRF 26, no audio and faststart.
+- The result: camera speed holds at 1.25 ± 0.13 px per frame, and the loop seam steps the same 1.24 as any other frame. Before the retime it ranged from 0.13 to 1.38.
+- Kling 3.0 `std` with the still as both start and end frame stayed almost static, with under 0.3% of pixels moving, whatever the prompt.
 
 ```text
-Locked-off static camera, no camera movement at all, no zoom, no pan. The temple corridor stays exactly as in the first frame. Only gentle ambient motion: the small brass oil-lamp flames flicker softly, the warm glow at the far end breathes slowly brighter and dimmer, the marigold and jasmine garlands sway very slightly in a light breeze, and faint dust motes and thin incense haze drift through the warm light. Calm, quiet, sacred mood. The last frame matches the first frame exactly so the clip loops seamlessly. Hand-painted watercolour storybook style, matching the first frame exactly. No people.
+The first image is the first frame and the second image is the last frame of the video; they are identical, so the clip must loop seamlessly. The camera glides forward at a slow, perfectly constant speed straight down the centre of this temple corridor, eye level, with no tilt, no pan and no rotation. Over the whole clip it travels exactly one bay: the nearest pair of carved pillars and their brass lamps pass out of the frame at the left and right edges, while the next pair of pillars ahead grows to take exactly their place, so the final frame lines up perfectly with the first. Endless walk through the pillars. The oil-lamp flames flicker gently and the garlands sway slightly. Keep the hand-painted watercolour storybook style, the warm light and the architecture of the image exactly. No people, no text.
 ```
