@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#faf0de" />
+    <title>Vikram &amp; Vaishnavi · Wedding Invitation</title>
+    <meta name="description" content="Vikram &amp; Vaishnavi are getting married. Muhurtham on Friday, 20 November 2026 at Brindavan Auditorium, Coimbatore." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Great+Vibes&family=Noto+Serif+Tamil:wght@400;500&display=swap"
+    />
+  </head>
+  <body class="is-gated">
+    <div class="backdrop" aria-hidden="true"></div>
+
+    <header class="chrome">
+      <a class="monogram" href="#hero" aria-label="Back to top">V &amp; V</a>
+      <div class="chrome-actions">
+        <button class="round-btn" id="music-toggle" type="button" aria-pressed="false" aria-label="Play music">♪</button>
+        <button class="round-btn" id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">☰</button>
+      </div>
+    </header>
+
+    <nav class="menu" id="menu" hidden>
+      <a href="#welcome">Welcome</a>
+      <a href="#journey">Our Wedding Journey</a>
+      <a href="#reception">Reception</a>
+      <a href="#muhurtham">Muhurtham</a>
+      <a href="#rsvp">RSVP</a>
+    </nav>
+
+    <main class="page">
+      <!-- 1 · Gate -->
+      <section class="beat gate" id="gate" data-beat="gate">
+        <div class="door door-left" aria-hidden="true"><span>door · left half</span></div>
+        <div class="door door-right" aria-hidden="true"><span>door · right half</span></div>
+        <button class="play-btn" id="gate-open" type="button" aria-label="Open the invitation">▶</button>
+        <p class="gate-hint">Tap to open</p>
+      </section>
+
+      <!-- 2–3 · Hero + hero exit -->
+      <section class="beat hero" id="hero" data-beat="hero">
+        <div class="placeholder hero-video" aria-hidden="true">hero loop video</div>
+        <div class="hero-text">
+          <p class="label">Sri Gurubhyo Namaha</p>
+          <p class="label small">With divine blessings</p>
+          <h1 class="script names">Vikram <span>&amp;</span> Vaishnavi</h1>
+          <p class="italic">are getting married on</p>
+          <p class="label">Friday, 20 November 2026</p>
+          <p class="scroll-cue"><span>Scroll to begin</span></p>
+        </div>
+      </section>
+
+      <!-- 4 · Welcome + countdown -->
+      <section class="beat welcome" id="welcome" data-beat="welcome">
+        <p class="italic lead reveal">Two families. Two hearts. One sacred journey.</p>
+        <div class="divider reveal" aria-hidden="true">✦</div>
+        <div class="countdown reveal" id="countdown" role="timer" aria-live="off">
+          <div><span data-unit="days">--</span><small>Days</small></div>
+          <div><span data-unit="hours">--</span><small>Hours</small></div>
+          <div><span data-unit="minutes">--</span><small>Minutes</small></div>
+          <div><span data-unit="seconds">--</span><small>Seconds</small></div>
+        </div>
+        <p class="italic reveal">Together with our families, we would love you to be part of our celebration.</p>
+      </section>
+
+      <!-- 5 · Thirukkural -->
+      <section class="beat kural" id="kural" data-beat="kural">
+        <p class="tamil reveal" lang="ta">உடம்பொடு உயிரிடை என்னமற் றன்ன<br />மடந்தையொடு எம்மிடை நட்பு.</p>
+        <p class="italic reveal">The bond between this maiden and me is the bond between body and soul.</p>
+        <p class="label small reveal">Thirukkural · 1122</p>
+      </section>
+
+      <!-- 6 · Divine scene -->
+      <section class="beat divine" id="divine" data-beat="divine">
+        <div class="placeholder divine-still reveal" aria-hidden="true">puja still life</div>
+        <p class="italic lead reveal">In the presence of the divine, a new chapter unfolds.</p>
+      </section>
+
+      <!-- 7 · Our Wedding Journey -->
+      <section class="beat journey" id="journey" data-beat="journey">
+        <h2 class="label reveal">Our Wedding Journey</h2>
+        <ol class="timeline">
+          <li class="event left reveal">
+            <span class="icon" aria-hidden="true">🪔</span>
+            <h3>Reception</h3>
+            <p>Thursday, 19 November<br />7:30 PM</p>
+          </li>
+          <li class="event right reveal">
+            <span class="icon" aria-hidden="true">🪷</span>
+            <h3>Muhurtham</h3>
+            <p>Friday, 20 November<br />6:15 AM</p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- 8 · Reception card -->
+      <section class="beat reception" id="reception" data-beat="reception">
+        <article class="card card-maroon reveal">
+          <p class="label">Reception · Vaazhthu Vizha</p>
+          <p class="date">Thursday, 19 November 2026</p>
+          <p class="time">7:30 PM onwards</p>
+          <p class="venue">Brindavan Auditorium<br />Chinniyampalayam, Coimbatore</p>
+          <p class="italic">An evening of love, laughter and a lifetime ahead.</p>
+          <a class="btn-gold" href="https://www.google.com/maps/search/?api=1&amp;query=Brindavan+Auditorium+Chinniyampalayam+Coimbatore" target="_blank" rel="noopener">View location</a>
+        </article>
+      </section>
+
+      <!-- 9 · Bridge -->
+      <section class="beat bridge" id="bridge" data-beat="bridge">
+        <div class="placeholder corridor" aria-hidden="true">temple corridor</div>
+        <p class="label caption caption-a">An evening of celebration…</p>
+        <p class="label caption caption-b">…then, sacred vows at dawn</p>
+      </section>
+
+      <!-- 10 · Muhurtham card -->
+      <section class="beat muhurtham" id="muhurtham" data-beat="muhurtham">
+        <div class="ornament reveal" aria-hidden="true">❀</div>
+        <p class="label small reveal">Tradition lives on</p>
+        <article class="card card-ivory reveal">
+          <p class="label">Wedding · Muhurtham</p>
+          <p class="date">Friday, 20 November 2026</p>
+          <p class="time">6:15 AM</p>
+          <p class="venue">Brindavan Auditorium<br />Chinniyampalayam, Coimbatore</p>
+          <p class="italic">Where sacred vows become the beginning of forever.</p>
+          <a class="btn-gold" href="https://www.google.com/maps/search/?api=1&amp;query=Brindavan+Auditorium+Chinniyampalayam+Coimbatore" target="_blank" rel="noopener">View location</a>
+        </article>
+      </section>
+
+      <!-- 11 · RSVP -->
+      <section class="beat rsvp" id="rsvp" data-beat="rsvp">
+        <h2 class="script reveal">Will you celebrate with us?</h2>
+        <form class="rsvp-form" id="rsvp-form" novalidate>
+          <label class="reveal">
+            <span>Your name</span>
+            <input name="name" type="text" autocomplete="name" required />
+          </label>
+          <fieldset class="reveal">
+            <legend>Will you attend?</legend>
+            <label class="choice"><input type="radio" name="attending" value="yes" checked /> Joyfully accept</label>
+            <label class="choice"><input type="radio" name="attending" value="no" /> Regretfully decline</label>
+          </fieldset>
+          <label class="reveal guests">
+            <span>Number of guests</span>
+            <input name="guests" type="number" min="1" max="20" value="1" inputmode="numeric" />
+          </label>
+          <label class="reveal">
+            <span>Message <small>(optional)</small></span>
+            <textarea name="message" rows="3"></textarea>
+          </label>
+          <p class="form-error" id="rsvp-error" role="alert" hidden></p>
+          <button class="btn-gold reveal" type="submit">Send RSVP</button>
+        </form>
+        <footer class="signature">
+          <p class="italic">With love,</p>
+          <p class="script">Vikram &amp; Vaishnavi</p>
+        </footer>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
