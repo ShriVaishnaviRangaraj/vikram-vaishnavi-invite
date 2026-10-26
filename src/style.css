@@ -498,6 +498,10 @@ p {
   padding: 4px 0;
 }
 
+.rsvp-form:has(input[value='no']:checked) .guests {
+  display: none;
+}
+
 .form-error {
   color: var(--rose-taupe);
   font-size: 0.9rem;
