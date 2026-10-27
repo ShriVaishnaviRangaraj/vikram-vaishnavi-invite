@@ -428,6 +428,15 @@ p {
   color: var(--rose-taupe);
 }
 
+/* Pulled up to the boxes it labels, so guests don't read the count as the reception's. */
+.countdown-target {
+  margin-top: -8px;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
 .countdown small {
   font-family: var(--caps);
   font-size: 0.6rem;
