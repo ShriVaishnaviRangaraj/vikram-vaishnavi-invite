@@ -124,32 +124,87 @@ p {
   color: var(--ivory);
 }
 
+#menu-toggle .icon-close,
+#menu-toggle[aria-expanded='true'] .icon-open {
+  display: none;
+}
+
+#menu-toggle[aria-expanded='true'] .icon-close {
+  display: inline;
+}
+
+/* A full-height overlay inside the column. It sits under the chrome, so the toggle (now ✕)
+   stays on top as its close button. */
+/* Centred with auto margins, not translateX(-50%), which can leave a 1px sliver of page at an
+   odd viewport width. */
 .menu {
   position: fixed;
-  top: 64px;
-  left: 50%;
+  inset: 0;
   z-index: 19;
   width: min(var(--column), 100%);
-  transform: translateX(-50%);
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  padding: 8px 16px 16px;
-  background: rgb(250 240 222 / 0.97);
-  border-bottom: 1px solid var(--gold);
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 88px 24px 48px;
+  background: radial-gradient(ellipse at 50% 40%, var(--ivory), var(--cream));
+  overscroll-behavior: contain;
+}
+
+.menu::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgb(198 153 81 / 0.55);
+  pointer-events: none;
 }
 
 .menu[hidden] {
   display: none;
 }
 
+.menu-art {
+  width: 72px;
+  height: 48px;
+  margin-bottom: 12px;
+}
+
 .menu a {
   padding: 10px 0;
   color: var(--ink);
   font-family: var(--caps);
-  font-size: 0.85rem;
-  letter-spacing: 0.2em;
+  font-size: 0.95rem;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
   text-decoration: none;
+}
+
+.menu a:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.menu-names {
+  margin-top: 28px;
+  font-size: 2.2rem;
+}
+
+.menu-names span {
+  padding: 0 0.15em;
+  font-size: 0.7em;
+}
+
+/* Locks page scroll while the menu is open. Overflow on the root keeps the window as the
+   scroller; the column MUST NOT scroll itself, or anime's observers stop firing (anime#1189). */
+html.is-menu-open {
+  overflow: hidden;
+}
+
+/* The monogram turns gold over dark beats; over the ivory menu it needs its deep gold back. */
+html.is-menu-open .chrome .monogram {
+  color: var(--gold-deep);
 }
 
 /* Shared type */

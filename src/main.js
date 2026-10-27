@@ -21,6 +21,7 @@ const { setMusic } = setupChrome({
   menuButton: document.querySelector('#menu-toggle'),
   menu: document.querySelector('#menu'),
   onMusic: setMusicPlaying,
+  reduceMotion,
 })
 
 const revealHero = setupHero(document.querySelector('#hero'), { reduceMotion })
