@@ -4,8 +4,8 @@ import { setupChrome } from './chrome.js'
 import { startCountdown } from './countdown.js'
 import { setupGate } from './gate.js'
 import { setupHero } from './hero.js'
+import { setupMotion } from './motion.js'
 import { createMusic } from './music.js'
-import { setupReveals } from './reveal.js'
 import { setupRsvp } from './rsvp.js'
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -21,6 +21,7 @@ const { setMusic } = setupChrome({
   menuButton: document.querySelector('#menu-toggle'),
   menu: document.querySelector('#menu'),
   onMusic: setMusicPlaying,
+  reduceMotion,
 })
 
 const revealHero = setupHero(document.querySelector('#hero'), { reduceMotion })
@@ -31,6 +32,6 @@ setupGate(document.querySelector('#gate'), {
   onOpened: revealHero,
 })
 
-startCountdown(document.querySelector('#countdown'), MUHURTHAM)
+startCountdown(document.querySelector('#countdown'), MUHURTHAM, { reduceMotion })
 setupRsvp(document.querySelector('#rsvp-form'), document.querySelector('#rsvp-error'), RSVP_WHATSAPP_NUMBER)
-setupReveals(document.querySelectorAll('.reveal'), { reduceMotion })
+setupMotion(document.querySelector('.page'))

@@ -6,6 +6,9 @@
   --gold-deep: #8a6328;
   --rose-taupe: #8c5a5e;
   --maroon: #5c1a26;
+  /* Nalangu card. Ink is 8.1:1 and maroon 9.6:1 on it; rose-taupe and gold-deep are about 4:1, so
+     they are only for rules, never small text. */
+  --blush: #f3d9d3;
   --ink: #4a3a33;
   --column: 440px;
 
@@ -88,6 +91,12 @@ p {
   letter-spacing: 0.2em;
   color: var(--gold-deep);
   text-decoration: none;
+  transition: color 0.4s;
+}
+
+/* Over the maroon reception and the dark bridge, where --gold-deep nearly vanishes. */
+.chrome.is-on-dark .monogram {
+  color: var(--gold);
 }
 
 .chrome-actions {
@@ -100,10 +109,17 @@ p {
   height: 40px;
   border: 1px solid var(--gold);
   border-radius: 50%;
+  display: grid;
+  place-items: center;
+  padding: 0;
   background: rgb(250 240 222 / 0.85);
   color: var(--gold-deep);
-  font-size: 1rem;
   cursor: pointer;
+}
+
+/* Chrome icons follow the button's text colour: --gold is only 2.3:1 on ivory, too faint for a control. */
+.round-btn .line-icon {
+  stroke: currentColor;
 }
 
 .round-btn[aria-pressed='true'] {
@@ -111,32 +127,87 @@ p {
   color: var(--ivory);
 }
 
+#menu-toggle .icon-close,
+#menu-toggle[aria-expanded='true'] .icon-open {
+  display: none;
+}
+
+#menu-toggle[aria-expanded='true'] .icon-close {
+  display: inline;
+}
+
+/* A full-height overlay inside the column. It sits under the chrome, so the toggle (now ✕)
+   stays on top as its close button. */
+/* Centred with auto margins, not translateX(-50%), which can leave a 1px sliver of page at an
+   odd viewport width. */
 .menu {
   position: fixed;
-  top: 64px;
-  left: 50%;
+  inset: 0;
   z-index: 19;
   width: min(var(--column), 100%);
-  transform: translateX(-50%);
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  padding: 8px 16px 16px;
-  background: rgb(250 240 222 / 0.97);
-  border-bottom: 1px solid var(--gold);
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 88px 24px 48px;
+  background: radial-gradient(ellipse at 50% 40%, var(--ivory), var(--cream));
+  overscroll-behavior: contain;
+}
+
+.menu::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgb(198 153 81 / 0.55);
+  pointer-events: none;
 }
 
 .menu[hidden] {
   display: none;
 }
 
+.menu-art {
+  width: 72px;
+  height: 48px;
+  margin-bottom: 12px;
+}
+
 .menu a {
   padding: 10px 0;
   color: var(--ink);
   font-family: var(--caps);
-  font-size: 0.85rem;
-  letter-spacing: 0.2em;
+  font-size: 0.95rem;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
   text-decoration: none;
+}
+
+.menu a:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.menu-names {
+  margin-top: 28px;
+  font-size: 2.2rem;
+}
+
+.menu-names span {
+  padding: 0 0.15em;
+  font-size: 0.7em;
+}
+
+/* Locks page scroll while the menu is open. Overflow on the root keeps the window as the
+   scroller; the column MUST NOT scroll itself, or anime's observers stop firing (anime#1189). */
+html.is-menu-open {
+  overflow: hidden;
+}
+
+/* The monogram turns gold over dark beats; over the ivory menu it needs its deep gold back. */
+html.is-menu-open .chrome .monogram {
+  color: var(--gold-deep);
 }
 
 /* Shared type */
@@ -156,6 +227,27 @@ p {
   font-style: italic;
 }
 
+/* Thin gold line art in place of emoji and font glyphs. Drawn ones (ornament, divider) are sized
+   1:1 with their viewBox so the stroke stays 1.25px without non-scaling-stroke, which breaks
+   createDrawable. */
+.line-icon {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon.line-icon {
+  height: 40px;
+  width: auto;
+}
+
+.icon.line-icon > *,
+.round-btn .line-icon > * {
+  vector-effect: non-scaling-stroke;
+}
+
 .lead {
   font-size: 1.4rem;
 }
@@ -166,10 +258,15 @@ p {
   color: var(--rose-taupe);
 }
 
+/* Each line of the couplet stays whole; the type shrinks to fit a narrow column instead. */
 .tamil {
   font-family: var(--tamil);
-  font-size: 1rem;
+  font-size: clamp(0.78rem, 3.9vw, 1rem);
   line-height: 1.9;
+}
+
+.tamil span {
+  white-space: nowrap;
 }
 
 .placeholder {
@@ -219,35 +316,63 @@ p {
   object-fit: cover;
 }
 
-.play-btn {
-  position: absolute;
-  inset: 0;
+/* The wax seal is the gate's button; the gate's flex centring places it on the door seam. */
+.seal-btn {
+  position: relative;
   z-index: 1;
-  width: 72px;
-  height: 72px;
-  margin: auto;
-  border: 2px solid var(--gold);
-  border-radius: 50%;
-  background: var(--ivory);
-  color: var(--gold-deep);
-  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 0;
+  border: 0;
+  background: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.seal {
+  width: 116px;
+  height: 116px;
+  overflow: visible;
+  filter: drop-shadow(0 4px 6px rgb(42 33 28 / 0.5));
+}
+
+.seal-mark {
+  font-family: var(--caps);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  fill: #6e4c1c;
+}
+
+/* A light copy 1px below the dark one embosses the monogram into the wax. */
+.seal-mark-light {
+  fill: #f5e0a8;
+  opacity: 0.7;
+}
+
+/* Both halves hinge from the foot of the crack when the seal breaks. */
+.seal-half {
+  transform-box: view-box;
+  transform-origin: 60px 116px;
 }
 
 .gate-hint {
-  position: absolute;
-  bottom: max(20px, env(safe-area-inset-bottom));
-  width: 100%;
-  color: var(--gold-deep);
+  color: var(--ivory);
   font-family: var(--caps);
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
+  text-shadow: 0 1px 8px rgb(42 33 28 / 0.95), 0 0 2px rgb(42 33 28 / 0.9);
 }
 
+/* The top padding keeps the text below the couple, who end about 62% down the 9:16 video. A
+   short phone grows the hero rather than letting the text cross them. */
 .hero {
   justify-content: flex-end;
-  padding-bottom: 64px;
+  padding-top: calc(min(100vw, var(--column)) * 1.1);
+  padding-bottom: 40px;
 }
 
 /* Two stacked loops: the couple facing each other, then the flower shower crossfades in. */
@@ -257,13 +382,15 @@ p {
   overflow: hidden;
 }
 
+/* Fitted to the column's width, not cropped to cover: the couple fill the top of the screen and
+   the clip's own ivory mist runs into the page below them. */
 .hero-video {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
+  height: auto;
+  aspect-ratio: 9 / 16;
 }
 
 .hero-b {
@@ -275,25 +402,44 @@ p {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 35%, rgb(250 240 222 / 0.55) 55%, rgb(250 240 222 / 0.8));
+  background: linear-gradient(to bottom, transparent 50%, rgb(250 240 222 / 0.6) 62%, rgb(250 240 222 / 0.85));
+}
+
+/* Scrolled to opacity 1 as the hero leaves, so it dissolves into the page ivory. */
+.hero-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--ivory);
+  opacity: 0;
 }
 
 .hero-text {
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
-  text-shadow: 0 0 12px var(--ivory), 0 0 4px var(--ivory);
+  text-shadow: 0 0 8px rgb(250 240 222 / 0.9);
+}
+
+.invocation {
+  font-size: 0.75rem;
+}
+
+/* Sets the invocation apart from the blessing line under it. */
+.invocation-rule {
+  width: 72px;
+  height: 8px;
+  margin: -2px 0 2px;
 }
 
 .names {
   font-size: 3.4rem;
-  line-height: 1.1;
+  line-height: 1.05;
 }
 
 .names span {
-  display: block;
-  font-size: 2.2rem;
+  font-size: 0.6em;
 }
 
 .scroll-cue {
@@ -305,9 +451,9 @@ p {
   text-transform: uppercase;
 }
 
-.scroll-cue::after {
-  content: '';
+.cue-line {
   display: block;
+  transform-origin: top;
   width: 1px;
   height: 40px;
   margin: 8px auto 0;
@@ -315,7 +461,8 @@ p {
 }
 
 .divider {
-  color: var(--gold);
+  width: 160px;
+  height: 32px;
 }
 
 .countdown {
@@ -330,12 +477,22 @@ p {
   flex-direction: column;
   padding: 12px 0;
   border: 1px solid var(--gold);
+  overflow: hidden;
 }
 
 .countdown span {
   font-size: 1.8rem;
   font-variant-numeric: tabular-nums;
   color: var(--rose-taupe);
+}
+
+/* Pulled up to the boxes it labels, so guests don't read the count as the reception's. */
+.countdown-target {
+  margin-top: -8px;
+}
+
+.nowrap {
+  white-space: nowrap;
 }
 
 .countdown small {
@@ -345,10 +502,13 @@ p {
   text-transform: uppercase;
 }
 
+.divine-frame {
+  width: calc(100% + 48px);
+}
+
 .divine-still {
   display: block;
-  width: calc(100% + 48px);
-  max-width: none;
+  width: 100%;
   height: auto;
   mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
 }
@@ -356,25 +516,53 @@ p {
 .timeline {
   position: relative;
   width: 100%;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 1px);
+  width: 2px;
+  height: 100%;
+  overflow: visible;
+}
+
+/* No non-scaling-stroke: it breaks createDrawable's dash maths on the stretched viewBox. The
+   x scale is 1:1, so the stroke keeps its width anyway. */
+.timeline-line line {
+  stroke: var(--gold);
+  stroke-width: 1;
+}
+
+.events {
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 1px;
-  background: var(--gold);
 }
 
 .event {
   position: relative;
   width: 50%;
   padding: 24px 16px;
+}
+
+/* A gold bead where each event meets the line. */
+.event::after {
+  content: '';
+  position: absolute;
+  top: 34px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.event.left::after {
+  right: -4px;
+}
+
+.event.right::after {
+  left: -3px;
 }
 
 .event.left {
@@ -412,8 +600,56 @@ p {
   font-weight: 500;
 }
 
+/* A temple arch with a gold double rule that follows it, lifted off the ivory page by a shadow.
+   The inner rule is a pseudo-element because iOS before 16.4 draws outlines square. */
 .card-ivory {
+  position: relative;
+  padding-top: 64px;
+  border: 2px solid var(--gold);
+  border-radius: 50% 50% 4px 4px / 110px 110px 4px 4px;
+  outline: 0;
   background: var(--cream);
+  box-shadow: 0 12px 32px rgb(138 99 40 / 0.16);
+}
+
+.card-ivory::before {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border: 1px solid var(--gold);
+  border-radius: 50% 50% 2px 2px / 103px 103px 2px 2px;
+  pointer-events: none;
+}
+
+.card-icon {
+  width: 40px;
+  height: 44px;
+}
+
+.jasmine {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  overflow: visible;
+  fill: #fffaf0;
+  stroke: var(--gold);
+  stroke-width: 0.9;
+}
+
+.jasmine .jasmine-leaf {
+  fill: rgb(198 153 81 / 0.18);
+}
+
+/* On the arch's left shoulder, and turned into the bottom-right corner. The turn is inside the
+   SVG because the reveal animates this element's transform. */
+.jasmine-top {
+  top: 84px;
+  left: -22px;
+}
+
+.jasmine-bottom {
+  right: -22px;
+  bottom: -18px;
 }
 
 .card-ivory .date {
@@ -433,14 +669,11 @@ p {
   color: var(--gold);
 }
 
-/* Maroon on gold is 5:1; ivory on gold is only 2.3:1. */
-.btn-gold {
+.btn-gold,
+.btn-outline {
   display: inline-block;
   margin-top: 8px;
   padding: 12px 28px;
-  border: 0;
-  background: var(--gold);
-  color: var(--maroon);
   font-family: var(--caps);
   font-size: 0.75rem;
   font-weight: 500;
@@ -450,9 +683,77 @@ p {
   cursor: pointer;
 }
 
+/* Maroon on gold is 5:1; ivory on gold is only 2.3:1. */
+.btn-gold {
+  border: 0;
+  background: var(--gold);
+  color: var(--maroon);
+}
+
+/* The secondary action. Same 1px less padding so both buttons are the same height. */
+.btn-outline {
+  padding: 11px 27px;
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--gold-deep);
+}
+
+.card-maroon .btn-outline {
+  color: var(--gold);
+}
+
+/* Nalangu: blush with a rose-taupe double rule, which also gives it an edge on the ivory page. */
+.card-blush {
+  border-color: var(--rose-taupe);
+  outline-color: var(--rose-taupe);
+  background: var(--blush);
+  box-shadow: 0 12px 32px rgb(140 90 94 / 0.16);
+}
+
+.card-blush .label,
+.card-blush .date {
+  color: var(--maroon);
+}
+
+.card-blush .card-icon {
+  stroke: var(--rose-taupe);
+}
+
+.card-blush .btn-outline {
+  border-color: var(--rose-taupe);
+  color: var(--maroon);
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.card-actions > * {
+  margin-top: 0;
+}
+
+/* Two screens of scroll; the stage pins for one while the captions hand over. */
 .bridge {
+  display: block;
+  height: 200lvh;
+  padding: 0;
   color: var(--ivory);
-  background: var(--ink);
+  /* The maroon band continues the reception above, so the corridor's feathered top edge fades
+     out of it instead of meeting it in a hard cut. */
+  background: linear-gradient(var(--maroon), var(--ink) 20lvh);
+}
+
+.bridge-stage {
+  position: sticky;
+  top: 0;
+  display: grid;
+  place-items: center;
+  height: 100lvh;
+  padding: 0 24px;
 }
 
 /* Feathered into the ink background so the section edges never show a hard cut. */
@@ -466,23 +767,28 @@ p {
 }
 
 /* Dims the corridor's bright vanishing point, which sits right behind the caption. */
-.bridge::after {
+.bridge-stage::after {
   content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse 90% 24% at 50% 50%, rgb(42 33 28 / 0.75), transparent);
 }
 
+/* Both captions share one grid cell and cross-fade. */
 .caption {
-  position: relative;
+  grid-area: 1 / 1;
   z-index: 1;
   color: var(--cream);
   text-shadow: 0 1px 12px rgb(42 33 28 / 0.9);
 }
 
+.caption-b {
+  opacity: 0;
+}
+
 .ornament {
-  font-size: 2.4rem;
-  color: var(--gold);
+  width: 200px;
+  height: 48px;
 }
 
 .rsvp {

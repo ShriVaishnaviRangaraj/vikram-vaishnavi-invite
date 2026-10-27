@@ -18,119 +18,284 @@
   <body class="is-gated">
     <div class="backdrop" aria-hidden="true"></div>
 
+    <!-- Shared line art: the turmeric bowl, a jasmine flower and the corner cluster built from it. -->
+    <svg width="0" height="0" aria-hidden="true" style="position: absolute">
+      <defs>
+        <symbol id="icon-turmeric" viewBox="0 0 32 40">
+          <path d="M10 22Q16 12 22 22" vector-effect="non-scaling-stroke" />
+          <path d="M4 22H28C27 29 22 32 16 32C10 32 5 29 4 22Z" vector-effect="non-scaling-stroke" />
+          <path d="M12 32L11 36H21L20 32" vector-effect="non-scaling-stroke" />
+          <path d="M26 20L30 13" vector-effect="non-scaling-stroke" />
+          <circle cx="8" cy="15" r="0.9" vector-effect="non-scaling-stroke" />
+          <circle cx="24" cy="12" r="0.9" vector-effect="non-scaling-stroke" />
+        </symbol>
+        <g id="jasmine-flower">
+          <ellipse cx="0" cy="-4.5" rx="2.4" ry="4.5" />
+          <ellipse cx="0" cy="-4.5" rx="2.4" ry="4.5" transform="rotate(72)" />
+          <ellipse cx="0" cy="-4.5" rx="2.4" ry="4.5" transform="rotate(144)" />
+          <ellipse cx="0" cy="-4.5" rx="2.4" ry="4.5" transform="rotate(216)" />
+          <ellipse cx="0" cy="-4.5" rx="2.4" ry="4.5" transform="rotate(288)" />
+          <circle r="1.2" />
+        </g>
+        <g id="jasmine-cluster">
+          <path class="jasmine-leaf" d="M30 34C40 30 50 34 56 44C46 46 36 42 30 34Z" />
+          <use href="#jasmine-flower" transform="translate(18 18)" />
+          <use href="#jasmine-flower" transform="translate(36 14) rotate(20) scale(0.8)" />
+          <use href="#jasmine-flower" transform="translate(16 38) rotate(40) scale(0.75)" />
+          <ellipse cx="46" cy="24" rx="1.8" ry="3.6" transform="rotate(40 46 24)" />
+          <ellipse cx="30" cy="30" rx="1.6" ry="3.2" transform="rotate(-30 30 30)" />
+          <ellipse cx="6" cy="28" rx="1.6" ry="3.2" transform="rotate(-60 6 28)" />
+        </g>
+      </defs>
+    </svg>
+
     <header class="chrome">
       <a class="monogram" href="#hero" aria-label="Back to top">V &amp; V</a>
       <div class="chrome-actions">
-        <button class="round-btn" id="music-toggle" type="button" aria-pressed="false" aria-label="Play music">♪</button>
-        <button class="round-btn" id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">☰</button>
+        <button class="round-btn" id="music-toggle" type="button" aria-pressed="false" aria-label="Play music">
+          <svg class="line-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path d="M9 17.5V6l10-2v11.5" />
+            <circle cx="7" cy="17.5" r="2" />
+            <circle cx="17" cy="15.5" r="2" />
+          </svg>
+        </button>
+        <button class="round-btn" id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+          <svg class="line-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path class="icon-open" d="M5 8h14M5 12h14M5 16h14" />
+            <path class="icon-close" d="M6.5 6.5l11 11M17.5 6.5l-11 11" />
+          </svg>
+        </button>
       </div>
     </header>
 
-    <nav class="menu" id="menu" hidden>
+    <nav class="menu" id="menu" aria-label="Sections" hidden>
+      <svg class="menu-art line-icon" viewBox="64 0 72 48" aria-hidden="true">
+        <path d="M100 4C108 14 108 29 100 36C92 29 92 14 100 4Z" />
+        <path d="M100 36C96 24 87 15 78 15C80 26 88 34 100 36Z" />
+        <path d="M100 36C104 24 113 15 122 15C120 26 112 34 100 36Z" />
+        <path d="M100 36C90 29 77 27 67 31C76 38 90 39 100 36Z" />
+        <path d="M100 36C110 29 123 27 133 31C124 38 110 39 100 36Z" />
+        <path d="M84 41Q100 47 116 41" />
+      </svg>
       <a href="#welcome">Welcome</a>
       <a href="#journey">Our Wedding Journey</a>
       <a href="#reception">Reception</a>
       <a href="#muhurtham">Muhurtham</a>
+      <a href="#nalangu">Nalangu</a>
       <a href="#rsvp">RSVP</a>
+      <p class="menu-names script">Vikram <span>&amp;</span> Vaishnavi</p>
     </nav>
 
     <main class="page">
       <!-- 1 · Gate -->
       <section class="beat gate" id="gate" data-beat="gate">
         <video class="gate-video" src="/assets/gate-open.mp4" poster="/assets/gate-poster.webp" muted playsinline preload="auto" aria-hidden="true"></video>
-        <button class="play-btn" id="gate-open" type="button" aria-label="Open the invitation">▶</button>
-        <p class="gate-hint">Tap to open</p>
+        <button class="seal-btn" id="gate-open" type="button" aria-label="Open the invitation">
+          <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+            <defs>
+              <radialGradient id="seal-wax" cx="40%" cy="35%" r="70%">
+                <stop offset="0" stop-color="#f1d595" />
+                <stop offset="0.55" stop-color="#c69951" />
+                <stop offset="1" stop-color="#8a6328" />
+              </radialGradient>
+              <!-- Roughens the rim so it reads as poured wax, not a disc. -->
+              <filter id="seal-rim" x="-10%" y="-10%" width="120%" height="120%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="7" />
+                <feDisplacementMap in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G" />
+              </filter>
+              <!-- The two halves meet on a jagged crack; the left one overlaps by 0.6 so no seam shows. -->
+              <clipPath id="seal-left"><path d="M0 0H62.6L56.6 22L64.6 40L55.6 60L63.6 80L57.6 100L61.6 120H0Z" /></clipPath>
+              <clipPath id="seal-right"><path d="M120 0H62L56 22L64 40L55 60L63 80L57 100L61 120H120Z" /></clipPath>
+              <g id="seal-art">
+                <circle cx="60" cy="60" r="52" fill="url(#seal-wax)" filter="url(#seal-rim)" />
+                <circle cx="60" cy="60" r="46" fill="none" stroke="#8a6328" stroke-width="6" opacity="0.3" />
+                <circle cx="60" cy="61" r="40" fill="none" stroke="#f5e0a8" stroke-width="0.8" opacity="0.7" />
+                <circle cx="60" cy="60" r="40" fill="none" stroke="#8a6328" stroke-width="1.5" />
+                <text class="seal-mark seal-mark-light" x="60" y="66.6" text-anchor="middle">V &amp; V</text>
+                <text class="seal-mark" x="60" y="65.6" text-anchor="middle">V &amp; V</text>
+              </g>
+            </defs>
+            <use class="seal-half" href="#seal-art" clip-path="url(#seal-left)" />
+            <use class="seal-half" href="#seal-art" clip-path="url(#seal-right)" />
+          </svg>
+          <span class="gate-hint">Tap to open</span>
+        </button>
       </section>
 
       <!-- 2–3 · Hero + hero exit -->
       <section class="beat hero" id="hero" data-beat="hero">
         <div class="hero-media" aria-hidden="true">
-          <video class="hero-video hero-a" src="/assets/hero-a.mp4" poster="/assets/hero-a-poster.webp" muted playsinline loop preload="auto"></video>
+          <video class="hero-video hero-a" src="/assets/hero-a.mp4" poster="/assets/hero-a-poster.webp" muted playsinline preload="auto"></video>
           <video class="hero-video hero-b" src="/assets/hero-b.mp4" poster="/assets/hero-b-poster.webp" muted playsinline loop preload="none"></video>
         </div>
+        <div class="hero-veil" aria-hidden="true"></div>
         <div class="hero-text">
-          <p class="label">Sri Gurubhyo Namaha</p>
+          <p class="label invocation">Sri Gurubhyo Namaha</p>
+          <svg class="invocation-rule line-icon" viewBox="0 0 72 8" aria-hidden="true">
+            <path d="M4 4H30M42 4H68M36 1L39 4L36 7L33 4Z" />
+          </svg>
           <p class="label small">With divine blessings</p>
-          <h1 class="script names">Vikram <span>&amp;</span> Vaishnavi</h1>
+          <h1 class="script names">Vikram <span>&amp;</span><br />Vaishnavi</h1>
           <p class="italic">are getting married on</p>
           <p class="label">Friday, 20 November 2026</p>
-          <p class="scroll-cue"><span>Scroll to begin</span></p>
+          <p class="scroll-cue"><span>Scroll to begin</span><span class="cue-line" aria-hidden="true"></span></p>
         </div>
       </section>
 
       <!-- 4 · Welcome + countdown -->
       <section class="beat welcome" id="welcome" data-beat="welcome">
         <p class="italic lead reveal">Two families. Two hearts. One sacred journey.</p>
-        <div class="divider reveal" aria-hidden="true">✦</div>
-        <div class="countdown reveal" id="countdown" role="timer" aria-live="off">
+        <svg class="divider line-icon" viewBox="0 0 160 32" aria-hidden="true">
+          <path d="M80 5C83 9 83 13 80 15C77 13 77 9 80 5Z" />
+          <path d="M66 19H94C92 25 86 27 80 27C74 27 68 25 66 19Z" />
+          <path d="M94 19L99 17" />
+          <path d="M58 23H10" />
+          <path d="M102 23H150" />
+        </svg>
+        <div class="countdown" id="countdown" role="timer" aria-live="off" aria-describedby="countdown-target">
           <div><span data-unit="days">--</span><small>Days</small></div>
           <div><span data-unit="hours">--</span><small>Hours</small></div>
           <div><span data-unit="minutes">--</span><small>Minutes</small></div>
           <div><span data-unit="seconds">--</span><small>Seconds</small></div>
         </div>
+        <p class="label small countdown-target reveal" id="countdown-target">Until the Muhurtham · <span class="nowrap">20 Nov, 6:15 AM</span></p>
         <p class="italic reveal">Together with our families, we would love you to be part of our celebration.</p>
       </section>
 
       <!-- 5 · Thirukkural -->
       <section class="beat kural" id="kural" data-beat="kural">
-        <p class="tamil reveal" lang="ta">உடம்பொடு உயிரிடை என்னமற் றன்ன<br />மடந்தையொடு எம்மிடை நட்பு.</p>
-        <p class="italic reveal">The bond between this maiden and me is the bond between body and soul.</p>
-        <p class="label small reveal">Thirukkural · 1122</p>
+        <p class="tamil" lang="ta"><span>உடம்பொடு உயிரிடை என்னமற் றன்ன</span><br /><span>மடந்தையொடு எம்மிடை நட்பு.</span></p>
+        <p class="italic">The bond between this maiden and me is the bond between body and soul.</p>
+        <p class="label small">Thirukkural · 1122</p>
       </section>
 
       <!-- 6 · Divine scene -->
       <section class="beat divine" id="divine" data-beat="divine">
-        <img class="divine-still reveal" src="/assets/divine.webp" width="1080" height="1443" alt="" loading="lazy" decoding="async" />
+        <div class="divine-frame">
+          <img class="divine-still" src="/assets/divine.webp" width="1080" height="1443" alt="" loading="lazy" decoding="async" />
+        </div>
         <p class="italic lead reveal">In the presence of the divine, a new chapter unfolds.</p>
       </section>
 
       <!-- 7 · Our Wedding Journey -->
       <section class="beat journey" id="journey" data-beat="journey">
         <h2 class="label reveal">Our Wedding Journey</h2>
-        <ol class="timeline">
-          <li class="event left reveal">
-            <span class="icon" aria-hidden="true">🪔</span>
-            <h3>Reception</h3>
-            <p>Thursday, 19 November<br />7:30 PM</p>
-          </li>
-          <li class="event right reveal">
-            <span class="icon" aria-hidden="true">🪷</span>
-            <h3>Muhurtham</h3>
-            <p>Friday, 20 November<br />6:15 AM</p>
-          </li>
-        </ol>
+        <div class="timeline">
+          <svg class="timeline-line" viewBox="0 0 2 100" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="1" y1="0" x2="1" y2="100" />
+          </svg>
+          <ol class="events">
+            <li class="event left">
+              <svg class="icon line-icon" viewBox="0 0 32 40" aria-hidden="true">
+                <path d="M16 2L17.5 4L16 6L14.5 4Z" />
+                <path d="M16 6V14" />
+                <path d="M7 14H25C24 18 20 20 16 20C12 20 8 18 7 14Z" />
+                <path d="M7.5 12.5C6 11 6.5 9 7.5 8C8.5 9 9 11 7.5 12.5Z" />
+                <path d="M24.5 12.5C23 11 23.5 9 24.5 8C25.5 9 26 11 24.5 12.5Z" />
+                <path d="M16 20V32M13.5 25H18.5" />
+                <path d="M9 37H23C22 34 19.5 32 16 32C12.5 32 10 34 9 37Z" />
+              </svg>
+              <h3>Reception</h3>
+              <p>Thursday, 19 November<br />7:30 PM</p>
+            </li>
+            <li class="event right">
+              <svg class="icon line-icon" viewBox="64 0 72 48" aria-hidden="true">
+                <path d="M100 4C108 14 108 29 100 36C92 29 92 14 100 4Z" />
+                <path d="M100 36C96 24 87 15 78 15C80 26 88 34 100 36Z" />
+                <path d="M100 36C104 24 113 15 122 15C120 26 112 34 100 36Z" />
+                <path d="M100 36C90 29 77 27 67 31C76 38 90 39 100 36Z" />
+                <path d="M100 36C110 29 123 27 133 31C124 38 110 39 100 36Z" />
+                <path d="M84 41Q100 47 116 41" />
+              </svg>
+              <h3>Muhurtham</h3>
+              <p>Friday, 20 November<br />6:15 AM</p>
+            </li>
+            <li class="event left">
+              <svg class="icon line-icon" viewBox="0 0 32 40" aria-hidden="true"><use href="#icon-turmeric" /></svg>
+              <h3>Nalangu</h3>
+              <p>Friday, 20 November<br />6:00 PM</p>
+            </li>
+          </ol>
+        </div>
       </section>
 
       <!-- 8 · Reception card -->
       <section class="beat reception" id="reception" data-beat="reception">
-        <article class="card card-maroon reveal">
+        <article class="card card-maroon">
           <p class="label">Reception · Vaazhthu Vizha</p>
           <p class="date">Thursday, 19 November 2026</p>
           <p class="time">7:30 PM onwards</p>
           <p class="venue">Brindavan Auditorium<br />Chinniyampalayam, Coimbatore</p>
           <p class="italic">An evening of love, laughter and a lifetime ahead.</p>
-          <a class="btn-gold" href="https://www.google.com/maps/search/?api=1&amp;query=Brindavan+Auditorium+Chinniyampalayam+Coimbatore" target="_blank" rel="noopener">View location</a>
+          <div class="card-actions">
+            <a class="btn-gold" href="https://www.google.com/maps/search/?api=1&amp;query=Brindavan+Auditorium+Chinniyampalayam+Coimbatore" target="_blank" rel="noopener">View location</a>
+            <a class="btn-outline" href="/reception.ics">Add to calendar</a>
+          </div>
         </article>
       </section>
 
       <!-- 9 · Bridge -->
       <section class="beat bridge" id="bridge" data-beat="bridge">
-        <video class="corridor" src="/assets/corridor-loop.mp4" poster="/assets/corridor-poster.webp" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
-        <p class="label caption caption-a">An evening of celebration…</p>
-        <p class="label caption caption-b">…then, sacred vows at dawn</p>
+        <div class="bridge-stage">
+          <video class="corridor" src="/assets/corridor-loop.mp4" poster="/assets/corridor-poster.webp" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <p class="label caption caption-a">An evening of celebration…</p>
+          <p class="label caption caption-b">…then, sacred vows at dawn</p>
+        </div>
       </section>
 
       <!-- 10 · Muhurtham card -->
       <section class="beat muhurtham" id="muhurtham" data-beat="muhurtham">
-        <div class="ornament reveal" aria-hidden="true">❀</div>
+        <svg class="ornament line-icon" viewBox="0 0 200 48" aria-hidden="true">
+          <path d="M100 4C108 14 108 29 100 36C92 29 92 14 100 4Z" />
+          <path d="M100 36C96 24 87 15 78 15C80 26 88 34 100 36Z" />
+          <path d="M100 36C104 24 113 15 122 15C120 26 112 34 100 36Z" />
+          <path d="M100 36C90 29 77 27 67 31C76 38 90 39 100 36Z" />
+          <path d="M100 36C110 29 123 27 133 31C124 38 110 39 100 36Z" />
+          <path d="M84 41Q100 47 116 41" />
+          <path d="M60 32H18" />
+          <path d="M140 32H182" />
+          <path d="M10 32L14 28L18 32L14 36Z" />
+          <path d="M190 32L186 28L182 32L186 36Z" />
+        </svg>
         <p class="label small reveal">Tradition lives on</p>
-        <article class="card card-ivory reveal">
+        <article class="card card-ivory">
+          <svg class="jasmine jasmine-top" viewBox="0 0 64 64" aria-hidden="true"><use href="#jasmine-cluster" /></svg>
+          <svg class="jasmine jasmine-bottom" viewBox="0 0 64 64" aria-hidden="true"><use href="#jasmine-cluster" transform="rotate(180 32 32)" /></svg>
+          <svg class="card-icon line-icon" viewBox="0 0 40 44" aria-hidden="true">
+            <path d="M16 7V4M20 5V1M24 7V4" />
+            <path d="M12 11Q20 4 28 11" />
+            <path d="M12 11H28L30 17H10Z" />
+            <path d="M10 17H30L32 24H8Z" />
+            <path d="M8 24H32L34 32H6Z" />
+            <path d="M6 32H34V43H6Z" />
+            <path d="M16 43V37Q20 33 24 37V43" />
+          </svg>
           <p class="label">Wedding · Muhurtham</p>
           <p class="date">Friday, 20 November 2026</p>
           <p class="time">6:15 AM</p>
           <p class="venue">Brindavan Auditorium<br />Chinniyampalayam, Coimbatore</p>
           <p class="italic">Where sacred vows become the beginning of forever.</p>
-          <a class="btn-gold" href="https://www.google.com/maps/search/?api=1&amp;query=Brindavan+Auditorium+Chinniyampalayam+Coimbatore" target="_blank" rel="noopener">View location</a>
+          <div class="card-actions">
+            <a class="btn-gold" href="https://www.google.com/maps/search/?api=1&amp;query=Brindavan+Auditorium+Chinniyampalayam+Coimbatore" target="_blank" rel="noopener">View location</a>
+            <a class="btn-outline" href="/muhurtham.ics">Add to calendar</a>
+          </div>
+        </article>
+      </section>
+
+      <!-- 10b · Nalangu card. The venue is unconfirmed; it also appears in public/nalangu.ics. -->
+      <section class="beat nalangu" id="nalangu" data-beat="nalangu">
+        <p class="italic lead reveal">…and as the day turns to evening</p>
+        <article class="card card-blush">
+          <svg class="card-icon line-icon" viewBox="0 0 32 40" aria-hidden="true"><use href="#icon-turmeric" /></svg>
+          <p class="label">Nalangu</p>
+          <p class="date">Friday, 20 November 2026</p>
+          <p class="time">6:00 – 7:15 PM</p>
+          <p class="venue">Brindavan Auditorium<br />Chinniyampalayam, Coimbatore</p>
+          <p class="italic">An evening of turmeric, laughter and games.</p>
+          <div class="card-actions">
+            <a class="btn-gold" href="https://www.google.com/maps/search/?api=1&amp;query=Brindavan+Auditorium+Chinniyampalayam+Coimbatore" target="_blank" rel="noopener">View location</a>
+            <a class="btn-outline" href="/nalangu.ics">Add to calendar</a>
+          </div>
         </article>
       </section>
 
@@ -138,25 +303,25 @@
       <section class="beat rsvp" id="rsvp" data-beat="rsvp">
         <h2 class="script reveal">Will you celebrate with us?</h2>
         <form class="rsvp-form" id="rsvp-form" novalidate>
-          <label class="reveal">
+          <label>
             <span>Your name</span>
             <input name="name" type="text" autocomplete="name" required />
           </label>
-          <fieldset class="reveal">
+          <fieldset>
             <legend>Will you attend?</legend>
             <label class="choice"><input type="radio" name="attending" value="yes" checked /> Joyfully accept</label>
             <label class="choice"><input type="radio" name="attending" value="no" /> Regretfully decline</label>
           </fieldset>
-          <label class="reveal guests">
+          <label class="guests">
             <span>Number of guests</span>
             <input name="guests" type="number" min="1" max="20" value="1" inputmode="numeric" />
           </label>
-          <label class="reveal">
+          <label>
             <span>Message <small>(optional)</small></span>
             <textarea name="message" rows="3"></textarea>
           </label>
           <p class="form-error" id="rsvp-error" role="alert" hidden></p>
-          <button class="btn-gold reveal" type="submit">Send RSVP</button>
+          <button class="btn-gold" type="submit">Send RSVP</button>
         </form>
         <footer class="signature">
           <p class="italic">With love,</p>

@@ -5,6 +5,8 @@ import { onScroll } from 'animejs'
 const FADE_IN = 1.5
 const FADE_OUT = 0.4
 const CROSSFADE = 2.5
+// Silent on the local dev server; preview and production builds play at full volume.
+const VOLUME = import.meta.env.DEV ? 0 : 1
 
 // Two looping beds play in sync from the gate tap; scrolling past the hero crossfades between them.
 export function createMusic({ heroUrl, journeyUrl, hero }) {
@@ -76,9 +78,9 @@ export function createMusic({ heroUrl, journeyUrl, hero }) {
     ctx.resume()
     if (!started) {
       started = true
-      startBeds().then(() => playing && ramp(master.gain, 1, FADE_IN))
+      startBeds().then(() => playing && ramp(master.gain, VOLUME, FADE_IN))
     } else {
-      ramp(master.gain, 1, FADE_IN)
+      ramp(master.gain, VOLUME, FADE_IN)
     }
   }
 }

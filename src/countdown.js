@@ -1,3 +1,5 @@
+import { animate } from 'animejs'
+
 const SECOND = 1000
 const MINUTE = 60 * SECOND
 const HOUR = 60 * MINUTE
@@ -13,7 +15,7 @@ export function remaining(target, now = Date.now()) {
   }
 }
 
-export function startCountdown(root, target) {
+export function startCountdown(root, target, { reduceMotion }) {
   const cells = Object.fromEntries(
     [...root.querySelectorAll('[data-unit]')].map((el) => [el.dataset.unit, el]),
   )
@@ -21,7 +23,12 @@ export function startCountdown(root, target) {
   const tick = () => {
     const parts = remaining(target)
     for (const [unit, value] of Object.entries(parts)) {
-      cells[unit].textContent = String(value).padStart(2, '0')
+      const cell = cells[unit]
+      const text = String(value).padStart(2, '0')
+      if (cell.textContent === text) continue
+      cell.textContent = text
+      // Each changed digit drops in from above.
+      if (!reduceMotion) animate(cell, { translateY: ['-60%', '0%'], opacity: [0, 1], duration: 450, ease: 'out(3)' })
     }
     if (target.getTime() <= Date.now()) clearInterval(timer)
   }
