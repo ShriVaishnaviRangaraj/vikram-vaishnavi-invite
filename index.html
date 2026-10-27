@@ -48,8 +48,36 @@
       <!-- 1 · Gate -->
       <section class="beat gate" id="gate" data-beat="gate">
         <video class="gate-video" src="/assets/gate-open.mp4" poster="/assets/gate-poster.webp" muted playsinline preload="auto" aria-hidden="true"></video>
-        <button class="play-btn" id="gate-open" type="button" aria-label="Open the invitation">▶</button>
-        <p class="gate-hint">Tap to open</p>
+        <button class="seal-btn" id="gate-open" type="button" aria-label="Open the invitation">
+          <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+            <defs>
+              <radialGradient id="seal-wax" cx="40%" cy="35%" r="70%">
+                <stop offset="0" stop-color="#f1d595" />
+                <stop offset="0.55" stop-color="#c69951" />
+                <stop offset="1" stop-color="#8a6328" />
+              </radialGradient>
+              <!-- Roughens the rim so it reads as poured wax, not a disc. -->
+              <filter id="seal-rim" x="-10%" y="-10%" width="120%" height="120%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="7" />
+                <feDisplacementMap in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G" />
+              </filter>
+              <!-- The two halves meet on a jagged crack; the left one overlaps by 0.6 so no seam shows. -->
+              <clipPath id="seal-left"><path d="M0 0H62.6L56.6 22L64.6 40L55.6 60L63.6 80L57.6 100L61.6 120H0Z" /></clipPath>
+              <clipPath id="seal-right"><path d="M120 0H62L56 22L64 40L55 60L63 80L57 100L61 120H120Z" /></clipPath>
+              <g id="seal-art">
+                <circle cx="60" cy="60" r="52" fill="url(#seal-wax)" filter="url(#seal-rim)" />
+                <circle cx="60" cy="60" r="46" fill="none" stroke="#8a6328" stroke-width="6" opacity="0.3" />
+                <circle cx="60" cy="61" r="40" fill="none" stroke="#f5e0a8" stroke-width="0.8" opacity="0.7" />
+                <circle cx="60" cy="60" r="40" fill="none" stroke="#8a6328" stroke-width="1.5" />
+                <text class="seal-mark seal-mark-light" x="60" y="66.6" text-anchor="middle">V &amp; V</text>
+                <text class="seal-mark" x="60" y="65.6" text-anchor="middle">V &amp; V</text>
+              </g>
+            </defs>
+            <use class="seal-half" href="#seal-art" clip-path="url(#seal-left)" />
+            <use class="seal-half" href="#seal-art" clip-path="url(#seal-right)" />
+          </svg>
+          <span class="gate-hint">Tap to open</span>
+        </button>
       </section>
 
       <!-- 2–3 · Hero + hero exit -->

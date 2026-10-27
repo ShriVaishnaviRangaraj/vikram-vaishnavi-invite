@@ -258,30 +258,55 @@ p {
   object-fit: cover;
 }
 
-.play-btn {
-  position: absolute;
-  inset: 0;
+/* The wax seal is the gate's button; the gate's flex centring places it on the door seam. */
+.seal-btn {
+  position: relative;
   z-index: 1;
-  width: 72px;
-  height: 72px;
-  margin: auto;
-  border: 2px solid var(--gold);
-  border-radius: 50%;
-  background: var(--ivory);
-  color: var(--gold-deep);
-  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 0;
+  border: 0;
+  background: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.seal {
+  width: 116px;
+  height: 116px;
+  overflow: visible;
+  filter: drop-shadow(0 4px 6px rgb(42 33 28 / 0.5));
+}
+
+.seal-mark {
+  font-family: var(--caps);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  fill: #6e4c1c;
+}
+
+/* A light copy 1px below the dark one embosses the monogram into the wax. */
+.seal-mark-light {
+  fill: #f5e0a8;
+  opacity: 0.7;
+}
+
+/* Both halves hinge from the foot of the crack when the seal breaks. */
+.seal-half {
+  transform-box: view-box;
+  transform-origin: 60px 116px;
 }
 
 .gate-hint {
-  position: absolute;
-  bottom: max(20px, env(safe-area-inset-bottom));
-  width: 100%;
-  color: var(--gold-deep);
+  color: var(--ivory);
   font-family: var(--caps);
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
+  text-shadow: 0 1px 8px rgb(42 33 28 / 0.95), 0 0 2px rgb(42 33 28 / 0.9);
 }
 
 /* The top padding keeps the text below the couple, who end about 62% down the 9:16 video. A
