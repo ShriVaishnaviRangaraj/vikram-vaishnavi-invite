@@ -552,7 +552,9 @@ p {
   height: 200lvh;
   padding: 0;
   color: var(--ivory);
-  background: var(--ink);
+  /* The maroon band continues the reception above, so the corridor's feathered top edge fades
+     out of it instead of meeting it in a hard cut. */
+  background: linear-gradient(var(--maroon), var(--ink) 20lvh);
 }
 
 .bridge-stage {

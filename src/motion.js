@@ -121,9 +121,14 @@ export function setupMotion(page) {
     reveal('.card-maroon', rise(80), { duration: 1200 })
     reveal('.card-maroon > *', rise(12), { trigger: '.card-maroon', delay: stagger(80, { start: 400 }) })
 
-    // Bridge: the corridor pins for one screen while caption A hands over to caption B.
+    // Bridge: the corridor pins for one screen while caption A hands over to caption B, and its
+    // light turns from lamp-lit evening to dawn. The grade is a colour fade, so it stays under
+    // reduced motion, applied to the paused poster.
     const drift = (from, to) => (reduce ? {} : { translateY: [from, to] })
+    const EVENING = 'sepia(0.35) saturate(1.3) brightness(0.8) hue-rotate(-8deg)'
+    const DAWN = 'sepia(0) saturate(0.85) brightness(1.15) hue-rotate(10deg)'
     createTimeline({ defaults: { ease: 'linear' }, autoplay: scrub('#bridge', 'top top', 'bottom bottom') })
+      .add('.corridor', { filter: [EVENING, DAWN], duration: 1000, ease: 'inOut(2)' }, 0)
       .add('.caption-a', { opacity: [1, 0], ...drift(0, -24), duration: 150 }, 350)
       .add('.caption-b', { opacity: [0, 1], ...drift(24, 0), duration: 150 }, 500)
       .add('.caption-b', { opacity: 1, duration: 350 }, 650)
