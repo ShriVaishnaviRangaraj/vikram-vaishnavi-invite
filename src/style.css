@@ -278,9 +278,12 @@ p {
   text-transform: uppercase;
 }
 
+/* The top padding keeps the text below the couple, who end about 62% down the 9:16 video. A
+   short phone grows the hero rather than letting the text cross them. */
 .hero {
   justify-content: flex-end;
-  padding-bottom: 64px;
+  padding-top: calc(min(100vw, var(--column)) * 1.1);
+  padding-bottom: 40px;
 }
 
 /* Two stacked loops: the couple facing each other, then the flower shower crossfades in. */
@@ -290,13 +293,15 @@ p {
   overflow: hidden;
 }
 
+/* Fitted to the column's width, not cropped to cover: the couple fill the top of the screen and
+   the clip's own ivory mist runs into the page below them. */
 .hero-video {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
+  height: auto;
+  aspect-ratio: 9 / 16;
 }
 
 .hero-b {
@@ -308,7 +313,7 @@ p {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 35%, rgb(250 240 222 / 0.55) 55%, rgb(250 240 222 / 0.8));
+  background: linear-gradient(to bottom, transparent 50%, rgb(250 240 222 / 0.6) 62%, rgb(250 240 222 / 0.85));
 }
 
 /* Scrolled to opacity 1 as the hero leaves, so it dissolves into the page ivory. */
@@ -323,18 +328,29 @@ p {
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
-  text-shadow: 0 0 12px var(--ivory), 0 0 4px var(--ivory);
+  text-shadow: 0 0 8px rgb(250 240 222 / 0.9);
+}
+
+.invocation {
+  font-size: 0.75rem;
+}
+
+/* Sets the invocation apart from the blessing line under it. */
+.invocation-rule {
+  width: 72px;
+  height: 8px;
+  margin: -2px 0 2px;
 }
 
 .names {
   font-size: 3.4rem;
-  line-height: 1.1;
+  line-height: 1.05;
 }
 
 .names span {
-  display: block;
-  font-size: 2.2rem;
+  font-size: 0.6em;
 }
 
 .scroll-cue {
