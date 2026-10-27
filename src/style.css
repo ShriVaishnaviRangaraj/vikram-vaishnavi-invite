@@ -542,8 +542,56 @@ p {
   font-weight: 500;
 }
 
+/* A temple arch with a gold double rule that follows it, lifted off the ivory page by a shadow.
+   The inner rule is a pseudo-element because iOS before 16.4 draws outlines square. */
 .card-ivory {
+  position: relative;
+  padding-top: 64px;
+  border: 2px solid var(--gold);
+  border-radius: 50% 50% 4px 4px / 110px 110px 4px 4px;
+  outline: 0;
   background: var(--cream);
+  box-shadow: 0 12px 32px rgb(138 99 40 / 0.16);
+}
+
+.card-ivory::before {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border: 1px solid var(--gold);
+  border-radius: 50% 50% 2px 2px / 103px 103px 2px 2px;
+  pointer-events: none;
+}
+
+.card-icon {
+  width: 40px;
+  height: 44px;
+}
+
+.jasmine {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  overflow: visible;
+  fill: #fffaf0;
+  stroke: var(--gold);
+  stroke-width: 0.9;
+}
+
+.jasmine .jasmine-leaf {
+  fill: rgb(198 153 81 / 0.18);
+}
+
+/* On the arch's left shoulder, and turned into the bottom-right corner. The turn is inside the
+   SVG because the reveal animates this element's transform. */
+.jasmine-top {
+  top: 84px;
+  left: -22px;
+}
+
+.jasmine-bottom {
+  right: -22px;
+  bottom: -18px;
 }
 
 .card-ivory .date {

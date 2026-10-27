@@ -148,7 +148,8 @@ export function setupMotion(page) {
     // Muhurtham: the lotus ornament draws in, then the card rises.
     drawIn('.ornament')
     reveal('.card-ivory', { ...rise(80), scale: 0.96 }, { duration: 1200 })
-    reveal('.card-ivory > *', rise(12), { trigger: '.card-ivory', delay: stagger(80, { start: 400 }) })
+    reveal('.card-ivory > :not(.jasmine)', rise(12), { trigger: '.card-ivory', delay: stagger(80, { start: 400 }) })
+    reveal('.jasmine', { opacity: 0, scale: 0.3 }, { trigger: '.card-ivory', delay: stagger(200, { start: 600 }) })
 
     // RSVP
     reveal('.rsvp-form > :is(label, fieldset, button)', rise(20), { trigger: '.rsvp-form', delay: stagger(110) })

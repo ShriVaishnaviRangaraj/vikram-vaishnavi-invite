@@ -18,6 +18,29 @@
   <body class="is-gated">
     <div class="backdrop" aria-hidden="true"></div>
 
+    <!-- Shared line art: a jasmine flower and the corner cluster built from it. -->
+    <svg width="0" height="0" aria-hidden="true" style="position: absolute">
+      <defs>
+        <g id="jasmine-flower">
+          <ellipse cx="0" cy="-4.5" rx="2.4" ry="4.5" />
+          <ellipse cx="0" cy="-4.5" rx="2.4" ry="4.5" transform="rotate(72)" />
+          <ellipse cx="0" cy="-4.5" rx="2.4" ry="4.5" transform="rotate(144)" />
+          <ellipse cx="0" cy="-4.5" rx="2.4" ry="4.5" transform="rotate(216)" />
+          <ellipse cx="0" cy="-4.5" rx="2.4" ry="4.5" transform="rotate(288)" />
+          <circle r="1.2" />
+        </g>
+        <g id="jasmine-cluster">
+          <path class="jasmine-leaf" d="M30 34C40 30 50 34 56 44C46 46 36 42 30 34Z" />
+          <use href="#jasmine-flower" transform="translate(18 18)" />
+          <use href="#jasmine-flower" transform="translate(36 14) rotate(20) scale(0.8)" />
+          <use href="#jasmine-flower" transform="translate(16 38) rotate(40) scale(0.75)" />
+          <ellipse cx="46" cy="24" rx="1.8" ry="3.6" transform="rotate(40 46 24)" />
+          <ellipse cx="30" cy="30" rx="1.6" ry="3.2" transform="rotate(-30 30 30)" />
+          <ellipse cx="6" cy="28" rx="1.6" ry="3.2" transform="rotate(-60 6 28)" />
+        </g>
+      </defs>
+    </svg>
+
     <header class="chrome">
       <a class="monogram" href="#hero" aria-label="Back to top">V &amp; V</a>
       <div class="chrome-actions">
@@ -212,6 +235,17 @@
         </svg>
         <p class="label small reveal">Tradition lives on</p>
         <article class="card card-ivory">
+          <svg class="jasmine jasmine-top" viewBox="0 0 64 64" aria-hidden="true"><use href="#jasmine-cluster" /></svg>
+          <svg class="jasmine jasmine-bottom" viewBox="0 0 64 64" aria-hidden="true"><use href="#jasmine-cluster" transform="rotate(180 32 32)" /></svg>
+          <svg class="card-icon line-icon" viewBox="0 0 40 44" aria-hidden="true">
+            <path d="M16 7V4M20 5V1M24 7V4" />
+            <path d="M12 11Q20 4 28 11" />
+            <path d="M12 11H28L30 17H10Z" />
+            <path d="M10 17H30L32 24H8Z" />
+            <path d="M8 24H32L34 32H6Z" />
+            <path d="M6 32H34V43H6Z" />
+            <path d="M16 43V37Q20 33 24 37V43" />
+          </svg>
           <p class="label">Wedding · Muhurtham</p>
           <p class="date">Friday, 20 November 2026</p>
           <p class="time">6:15 AM</p>
