@@ -6,6 +6,9 @@
   --gold-deep: #8a6328;
   --rose-taupe: #8c5a5e;
   --maroon: #5c1a26;
+  /* Nalangu card. Ink is 8.1:1 and maroon 9.6:1 on it; rose-taupe and gold-deep are about 4:1, so
+     they are only for rules, never small text. */
+  --blush: #f3d9d3;
   --ink: #4a3a33;
   --column: 440px;
 
@@ -697,6 +700,28 @@ html.is-menu-open .chrome .monogram {
 
 .card-maroon .btn-outline {
   color: var(--gold);
+}
+
+/* Nalangu: blush with a rose-taupe double rule, which also gives it an edge on the ivory page. */
+.card-blush {
+  border-color: var(--rose-taupe);
+  outline-color: var(--rose-taupe);
+  background: var(--blush);
+  box-shadow: 0 12px 32px rgb(140 90 94 / 0.16);
+}
+
+.card-blush .label,
+.card-blush .date {
+  color: var(--maroon);
+}
+
+.card-blush .card-icon {
+  stroke: var(--rose-taupe);
+}
+
+.card-blush .btn-outline {
+  border-color: var(--rose-taupe);
+  color: var(--maroon);
 }
 
 .card-actions {

@@ -2,7 +2,7 @@ import { animate, createDrawable, createScope, createTimeline, onScroll, stagger
 
 // The trigger's top has crossed 85% of the viewport.
 const IN_VIEW = 'bottom-=15% top'
-const REST = { opacity: 1, translateX: 0, translateY: 0, scale: 1 }
+const REST = { opacity: 1, translateX: 0, translateY: 0, scale: 1, rotate: 0 }
 
 const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim()
 
@@ -91,8 +91,9 @@ export function setupMotion(page) {
         autoplay: scrub('.timeline', 'bottom-=20% top', 'center+=10% bottom'),
       })
     }
-    reveal('.event.left', { opacity: 0, translateX: -32 })
-    reveal('.event.right', { opacity: 0, translateX: 32 })
+    for (const event of utils.$('.event')) {
+      reveal(event, { opacity: 0, translateX: event.classList.contains('left') ? -32 : 32 })
+    }
 
     // The chrome sits outside the scope's root, so it is looked up on the document.
     const chrome = document.querySelector('.chrome')
@@ -150,6 +151,10 @@ export function setupMotion(page) {
     reveal('.card-ivory', { ...rise(80), scale: 0.96 }, { duration: 1200 })
     reveal('.card-ivory > :not(.jasmine)', rise(12), { trigger: '.card-ivory', delay: stagger(80, { start: 400 }) })
     reveal('.jasmine', { opacity: 0, scale: 0.3 }, { trigger: '.card-ivory', delay: stagger(200, { start: 600 }) })
+
+    // Nalangu: the card blooms up from a slight tilt, then its lines follow.
+    reveal('.card-blush', { ...rise(60), scale: 0.9, rotate: -2 }, { duration: 1300 })
+    reveal('.card-blush > *', rise(12), { trigger: '.card-blush', delay: stagger(80, { start: 450 }) })
 
     // RSVP
     reveal('.rsvp-form > :is(label, fieldset, button)', rise(20), { trigger: '.rsvp-form', delay: stagger(110) })

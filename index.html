@@ -18,9 +18,17 @@
   <body class="is-gated">
     <div class="backdrop" aria-hidden="true"></div>
 
-    <!-- Shared line art: a jasmine flower and the corner cluster built from it. -->
+    <!-- Shared line art: the turmeric bowl, a jasmine flower and the corner cluster built from it. -->
     <svg width="0" height="0" aria-hidden="true" style="position: absolute">
       <defs>
+        <symbol id="icon-turmeric" viewBox="0 0 32 40">
+          <path d="M10 22Q16 12 22 22" vector-effect="non-scaling-stroke" />
+          <path d="M4 22H28C27 29 22 32 16 32C10 32 5 29 4 22Z" vector-effect="non-scaling-stroke" />
+          <path d="M12 32L11 36H21L20 32" vector-effect="non-scaling-stroke" />
+          <path d="M26 20L30 13" vector-effect="non-scaling-stroke" />
+          <circle cx="8" cy="15" r="0.9" vector-effect="non-scaling-stroke" />
+          <circle cx="24" cy="12" r="0.9" vector-effect="non-scaling-stroke" />
+        </symbol>
         <g id="jasmine-flower">
           <ellipse cx="0" cy="-4.5" rx="2.4" ry="4.5" />
           <ellipse cx="0" cy="-4.5" rx="2.4" ry="4.5" transform="rotate(72)" />
@@ -73,6 +81,7 @@
       <a href="#journey">Our Wedding Journey</a>
       <a href="#reception">Reception</a>
       <a href="#muhurtham">Muhurtham</a>
+      <a href="#nalangu">Nalangu</a>
       <a href="#rsvp">RSVP</a>
       <p class="menu-names script">Vikram <span>&amp;</span> Vaishnavi</p>
     </nav>
@@ -201,6 +210,11 @@
               <h3>Muhurtham</h3>
               <p>Friday, 20 November<br />6:15 AM</p>
             </li>
+            <li class="event left">
+              <svg class="icon line-icon" viewBox="0 0 32 40" aria-hidden="true"><use href="#icon-turmeric" /></svg>
+              <h3>Nalangu</h3>
+              <p>Friday, 20 November<br />6:00 PM</p>
+            </li>
           </ol>
         </div>
       </section>
@@ -264,6 +278,23 @@
           <div class="card-actions">
             <a class="btn-gold" href="https://www.google.com/maps/search/?api=1&amp;query=Brindavan+Auditorium+Chinniyampalayam+Coimbatore" target="_blank" rel="noopener">View location</a>
             <a class="btn-outline" href="/muhurtham.ics">Add to calendar</a>
+          </div>
+        </article>
+      </section>
+
+      <!-- 10b · Nalangu card. The venue is unconfirmed; it also appears in public/nalangu.ics. -->
+      <section class="beat nalangu" id="nalangu" data-beat="nalangu">
+        <p class="italic lead reveal">…and as the day turns to evening</p>
+        <article class="card card-blush">
+          <svg class="card-icon line-icon" viewBox="0 0 32 40" aria-hidden="true"><use href="#icon-turmeric" /></svg>
+          <p class="label">Nalangu</p>
+          <p class="date">Friday, 20 November 2026</p>
+          <p class="time">6:00 – 7:15 PM</p>
+          <p class="venue">Brindavan Auditorium<br />Chinniyampalayam, Coimbatore</p>
+          <p class="italic">An evening of turmeric, laughter and games.</p>
+          <div class="card-actions">
+            <a class="btn-gold" href="https://www.google.com/maps/search/?api=1&amp;query=Brindavan+Auditorium+Chinniyampalayam+Coimbatore" target="_blank" rel="noopener">View location</a>
+            <a class="btn-outline" href="/nalangu.ics">Add to calendar</a>
           </div>
         </article>
       </section>
