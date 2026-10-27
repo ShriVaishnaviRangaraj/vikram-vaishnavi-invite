@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "poster:qr": "qrcode -t svg -e M -q 4 -d '#2f3813' -l '#fffdf4' -o docs/poster/qr.svg https://vikram-vaishnavi-invite.vercel.app",
+    "poster": "docs/poster/render.sh docs/poster/invite-poster.png"
   },
   "devDependencies": {
+    "qrcode": "^1.5.4",
     "vite": "^8.3.4"
   },
   "dependencies": {
