@@ -100,10 +100,17 @@ p {
   height: 40px;
   border: 1px solid var(--gold);
   border-radius: 50%;
+  display: grid;
+  place-items: center;
+  padding: 0;
   background: rgb(250 240 222 / 0.85);
   color: var(--gold-deep);
-  font-size: 1rem;
   cursor: pointer;
+}
+
+/* Chrome icons follow the button's text colour: --gold is only 2.3:1 on ivory, too faint for a control. */
+.round-btn .line-icon {
+  stroke: currentColor;
 }
 
 .round-btn[aria-pressed='true'] {
@@ -154,6 +161,27 @@ p {
 
 .italic {
   font-style: italic;
+}
+
+/* Thin gold line art in place of emoji and font glyphs. Drawn ones (ornament, divider) are sized
+   1:1 with their viewBox so the stroke stays 1.25px without non-scaling-stroke, which breaks
+   createDrawable. */
+.line-icon {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon.line-icon {
+  height: 40px;
+  width: auto;
+}
+
+.icon.line-icon > *,
+.round-btn .line-icon > * {
+  vector-effect: non-scaling-stroke;
 }
 
 .lead {
@@ -328,7 +356,8 @@ p {
 }
 
 .divider {
-  color: var(--gold);
+  width: 160px;
+  height: 32px;
 }
 
 .countdown {
@@ -546,11 +575,6 @@ p {
 .ornament {
   width: 200px;
   height: 48px;
-  fill: none;
-  stroke: var(--gold);
-  stroke-width: 1.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
 .rsvp {

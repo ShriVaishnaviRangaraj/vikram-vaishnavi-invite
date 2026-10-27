@@ -41,6 +41,14 @@ export function setupMotion(page) {
 
     const rise = (y) => ({ opacity: 0, translateY: y })
 
+    // Line art draws its strokes in, centre first, once it scrolls into view.
+    const drawIn = (svg) => {
+      if (reduce) return reveal(svg, { opacity: 0 })
+      const strokes = createDrawable(`${svg} path`)
+      utils.set(strokes, { draw: '0 0' })
+      onceInView(svg, () => animate(strokes, { draw: '0 1', duration: 1400, delay: stagger(110), ease: 'inOut(2)' }))
+    }
+
     // Hero exit: the names drift up and fade, then the hero dissolves to ivory.
     animate('.hero-text', {
       opacity: [1, 0],
@@ -61,7 +69,7 @@ export function setupMotion(page) {
     for (const el of utils.$('.reveal')) reveal(el, rise(24))
 
     // Welcome + countdown
-    reveal('.welcome .divider', { opacity: 0, scale: 0.4 }, { duration: 1100 })
+    drawIn('.welcome .divider')
     reveal('.countdown > div', rise(16), { trigger: '.countdown', delay: stagger(90) })
 
     // Thirukkural
@@ -115,15 +123,7 @@ export function setupMotion(page) {
     }
 
     // Muhurtham: the lotus ornament draws in, then the card rises.
-    if (reduce) {
-      reveal('.ornament', { opacity: 0 })
-    } else {
-      const strokes = createDrawable('.ornament path')
-      utils.set(strokes, { draw: '0 0' })
-      onceInView('.ornament', () =>
-        animate(strokes, { draw: '0 1', duration: 1400, delay: stagger(110), ease: 'inOut(2)' }),
-      )
-    }
+    drawIn('.ornament')
     reveal('.card-ivory', { ...rise(80), scale: 0.96 }, { duration: 1200 })
     reveal('.card-ivory > *', rise(12), { trigger: '.card-ivory', delay: stagger(80, { start: 400 }) })
 
