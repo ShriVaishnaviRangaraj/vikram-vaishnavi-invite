@@ -88,6 +88,12 @@ p {
   letter-spacing: 0.2em;
   color: var(--gold-deep);
   text-decoration: none;
+  transition: color 0.4s;
+}
+
+/* Over the maroon reception and the dark bridge, where --gold-deep nearly vanishes. */
+.chrome.is-on-dark .monogram {
+  color: var(--gold);
 }
 
 .chrome-actions {

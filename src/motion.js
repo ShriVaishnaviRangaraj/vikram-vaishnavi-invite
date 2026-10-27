@@ -94,6 +94,24 @@ export function setupMotion(page) {
     reveal('.event.left', { opacity: 0, translateX: -32 })
     reveal('.event.right', { opacity: 0, translateX: 32 })
 
+    // The chrome sits outside the scope's root, so it is looked up on the document.
+    const chrome = document.querySelector('.chrome')
+    const darkUnderHeader = new Set()
+    for (const beat of ['#reception', '#bridge']) {
+      const mark = (on) => {
+        on ? darkUnderHeader.add(beat) : darkUnderHeader.delete(beat)
+        chrome.classList.toggle('is-on-dark', darkUnderHeader.size > 0)
+      }
+      // In view while the beat spans the header's middle line, 32px down.
+      onScroll({
+        target: beat,
+        enter: 'top+=32 top',
+        leave: 'top+=32 bottom',
+        onEnter: () => mark(true),
+        onLeave: () => mark(false),
+      })
+    }
+
     // Reception: the page flips from ivory to maroon, then the card rises.
     animate('#reception', {
       backgroundColor: [token('--ivory'), token('--maroon')],
