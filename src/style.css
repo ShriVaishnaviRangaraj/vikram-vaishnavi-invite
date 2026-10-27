@@ -21,8 +21,10 @@
   box-sizing: border-box;
 }
 
+/* Proximity, not mandatory: beats taller than the screen still scroll freely. */
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
 }
 
 body {
@@ -195,6 +197,7 @@ p {
   min-height: 100svh;
   padding: 96px 24px;
   text-align: center;
+  scroll-snap-align: start;
 }
 
 .gate {
@@ -209,6 +212,7 @@ p {
   gap: 0;
   background: var(--ivory);
   overflow: hidden;
+  scroll-snap-align: none;
 }
 
 .gate-video {
@@ -497,6 +501,15 @@ p {
   padding: 0;
   color: var(--ivory);
   background: var(--ink);
+}
+
+/* The second snap stop: the end of the pin, with caption B in. The section's own start is the first. */
+.bridge-stop {
+  position: absolute;
+  top: 100lvh;
+  height: 100lvh;
+  scroll-snap-align: start;
+  pointer-events: none;
 }
 
 .bridge-stage {
