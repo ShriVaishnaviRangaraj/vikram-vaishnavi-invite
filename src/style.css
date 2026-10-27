@@ -278,6 +278,14 @@ p {
   background: linear-gradient(to bottom, transparent 35%, rgb(250 240 222 / 0.55) 55%, rgb(250 240 222 / 0.8));
 }
 
+/* Scrolled to opacity 1 as the hero leaves, so it dissolves into the page ivory. */
+.hero-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--ivory);
+  opacity: 0;
+}
+
 .hero-text {
   position: relative;
   display: flex;
@@ -305,9 +313,9 @@ p {
   text-transform: uppercase;
 }
 
-.scroll-cue::after {
-  content: '';
+.cue-line {
   display: block;
+  transform-origin: top;
   width: 1px;
   height: 40px;
   margin: 8px auto 0;
@@ -330,6 +338,7 @@ p {
   flex-direction: column;
   padding: 12px 0;
   border: 1px solid var(--gold);
+  overflow: hidden;
 }
 
 .countdown span {
@@ -345,10 +354,13 @@ p {
   text-transform: uppercase;
 }
 
+.divine-frame {
+  width: calc(100% + 48px);
+}
+
 .divine-still {
   display: block;
-  width: calc(100% + 48px);
-  max-width: none;
+  width: 100%;
   height: auto;
   mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
 }
@@ -356,25 +368,53 @@ p {
 .timeline {
   position: relative;
   width: 100%;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 1px);
+  width: 2px;
+  height: 100%;
+  overflow: visible;
+}
+
+/* No non-scaling-stroke: it breaks createDrawable's dash maths on the stretched viewBox. The
+   x scale is 1:1, so the stroke keeps its width anyway. */
+.timeline-line line {
+  stroke: var(--gold);
+  stroke-width: 1;
+}
+
+.events {
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 1px;
-  background: var(--gold);
 }
 
 .event {
   position: relative;
   width: 50%;
   padding: 24px 16px;
+}
+
+/* A gold bead where each event meets the line. */
+.event::after {
+  content: '';
+  position: absolute;
+  top: 34px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.event.left::after {
+  right: -4px;
+}
+
+.event.right::after {
+  left: -3px;
 }
 
 .event.left {
@@ -450,9 +490,22 @@ p {
   cursor: pointer;
 }
 
+/* Three screens of scroll; the stage pins for the middle two while the captions hand over. */
 .bridge {
+  display: block;
+  height: 300lvh;
+  padding: 0;
   color: var(--ivory);
   background: var(--ink);
+}
+
+.bridge-stage {
+  position: sticky;
+  top: 0;
+  display: grid;
+  place-items: center;
+  height: 100lvh;
+  padding: 0 24px;
 }
 
 /* Feathered into the ink background so the section edges never show a hard cut. */
@@ -466,23 +519,33 @@ p {
 }
 
 /* Dims the corridor's bright vanishing point, which sits right behind the caption. */
-.bridge::after {
+.bridge-stage::after {
   content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse 90% 24% at 50% 50%, rgb(42 33 28 / 0.75), transparent);
 }
 
+/* Both captions share one grid cell and cross-fade. */
 .caption {
-  position: relative;
+  grid-area: 1 / 1;
   z-index: 1;
   color: var(--cream);
   text-shadow: 0 1px 12px rgb(42 33 28 / 0.9);
 }
 
+.caption-b {
+  opacity: 0;
+}
+
 .ornament {
-  font-size: 2.4rem;
-  color: var(--gold);
+  width: 200px;
+  height: 48px;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .rsvp {

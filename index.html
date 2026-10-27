@@ -48,21 +48,22 @@
           <video class="hero-video hero-a" src="/assets/hero-a.mp4" poster="/assets/hero-a-poster.webp" muted playsinline loop preload="auto"></video>
           <video class="hero-video hero-b" src="/assets/hero-b.mp4" poster="/assets/hero-b-poster.webp" muted playsinline loop preload="none"></video>
         </div>
+        <div class="hero-veil" aria-hidden="true"></div>
         <div class="hero-text">
           <p class="label">Sri Gurubhyo Namaha</p>
           <p class="label small">With divine blessings</p>
           <h1 class="script names">Vikram <span>&amp;</span> Vaishnavi</h1>
           <p class="italic">are getting married on</p>
           <p class="label">Friday, 20 November 2026</p>
-          <p class="scroll-cue"><span>Scroll to begin</span></p>
+          <p class="scroll-cue"><span>Scroll to begin</span><span class="cue-line" aria-hidden="true"></span></p>
         </div>
       </section>
 
       <!-- 4 · Welcome + countdown -->
       <section class="beat welcome" id="welcome" data-beat="welcome">
         <p class="italic lead reveal">Two families. Two hearts. One sacred journey.</p>
-        <div class="divider reveal" aria-hidden="true">✦</div>
-        <div class="countdown reveal" id="countdown" role="timer" aria-live="off">
+        <div class="divider" aria-hidden="true">✦</div>
+        <div class="countdown" id="countdown" role="timer" aria-live="off">
           <div><span data-unit="days">--</span><small>Days</small></div>
           <div><span data-unit="hours">--</span><small>Hours</small></div>
           <div><span data-unit="minutes">--</span><small>Minutes</small></div>
@@ -73,37 +74,44 @@
 
       <!-- 5 · Thirukkural -->
       <section class="beat kural" id="kural" data-beat="kural">
-        <p class="tamil reveal" lang="ta">உடம்பொடு உயிரிடை என்னமற் றன்ன<br />மடந்தையொடு எம்மிடை நட்பு.</p>
-        <p class="italic reveal">The bond between this maiden and me is the bond between body and soul.</p>
-        <p class="label small reveal">Thirukkural · 1122</p>
+        <p class="tamil" lang="ta">உடம்பொடு உயிரிடை என்னமற் றன்ன<br />மடந்தையொடு எம்மிடை நட்பு.</p>
+        <p class="italic">The bond between this maiden and me is the bond between body and soul.</p>
+        <p class="label small">Thirukkural · 1122</p>
       </section>
 
       <!-- 6 · Divine scene -->
       <section class="beat divine" id="divine" data-beat="divine">
-        <img class="divine-still reveal" src="/assets/divine.webp" width="1080" height="1443" alt="" loading="lazy" decoding="async" />
+        <div class="divine-frame">
+          <img class="divine-still" src="/assets/divine.webp" width="1080" height="1443" alt="" loading="lazy" decoding="async" />
+        </div>
         <p class="italic lead reveal">In the presence of the divine, a new chapter unfolds.</p>
       </section>
 
       <!-- 7 · Our Wedding Journey -->
       <section class="beat journey" id="journey" data-beat="journey">
         <h2 class="label reveal">Our Wedding Journey</h2>
-        <ol class="timeline">
-          <li class="event left reveal">
-            <span class="icon" aria-hidden="true">🪔</span>
-            <h3>Reception</h3>
-            <p>Thursday, 19 November<br />7:30 PM</p>
-          </li>
-          <li class="event right reveal">
-            <span class="icon" aria-hidden="true">🪷</span>
-            <h3>Muhurtham</h3>
-            <p>Friday, 20 November<br />6:15 AM</p>
-          </li>
-        </ol>
+        <div class="timeline">
+          <svg class="timeline-line" viewBox="0 0 2 100" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="1" y1="0" x2="1" y2="100" />
+          </svg>
+          <ol class="events">
+            <li class="event left">
+              <span class="icon" aria-hidden="true">🪔</span>
+              <h3>Reception</h3>
+              <p>Thursday, 19 November<br />7:30 PM</p>
+            </li>
+            <li class="event right">
+              <span class="icon" aria-hidden="true">🪷</span>
+              <h3>Muhurtham</h3>
+              <p>Friday, 20 November<br />6:15 AM</p>
+            </li>
+          </ol>
+        </div>
       </section>
 
       <!-- 8 · Reception card -->
       <section class="beat reception" id="reception" data-beat="reception">
-        <article class="card card-maroon reveal">
+        <article class="card card-maroon">
           <p class="label">Reception · Vaazhthu Vizha</p>
           <p class="date">Thursday, 19 November 2026</p>
           <p class="time">7:30 PM onwards</p>
@@ -115,16 +123,29 @@
 
       <!-- 9 · Bridge -->
       <section class="beat bridge" id="bridge" data-beat="bridge">
-        <video class="corridor" src="/assets/corridor-loop.mp4" poster="/assets/corridor-poster.webp" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
-        <p class="label caption caption-a">An evening of celebration…</p>
-        <p class="label caption caption-b">…then, sacred vows at dawn</p>
+        <div class="bridge-stage">
+          <video class="corridor" src="/assets/corridor-loop.mp4" poster="/assets/corridor-poster.webp" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <p class="label caption caption-a">An evening of celebration…</p>
+          <p class="label caption caption-b">…then, sacred vows at dawn</p>
+        </div>
       </section>
 
       <!-- 10 · Muhurtham card -->
       <section class="beat muhurtham" id="muhurtham" data-beat="muhurtham">
-        <div class="ornament reveal" aria-hidden="true">❀</div>
+        <svg class="ornament" viewBox="0 0 200 48" aria-hidden="true">
+          <path d="M100 4C108 14 108 29 100 36C92 29 92 14 100 4Z" />
+          <path d="M100 36C96 24 87 15 78 15C80 26 88 34 100 36Z" />
+          <path d="M100 36C104 24 113 15 122 15C120 26 112 34 100 36Z" />
+          <path d="M100 36C90 29 77 27 67 31C76 38 90 39 100 36Z" />
+          <path d="M100 36C110 29 123 27 133 31C124 38 110 39 100 36Z" />
+          <path d="M84 41Q100 47 116 41" />
+          <path d="M60 32H18" />
+          <path d="M140 32H182" />
+          <path d="M10 32L14 28L18 32L14 36Z" />
+          <path d="M190 32L186 28L182 32L186 36Z" />
+        </svg>
         <p class="label small reveal">Tradition lives on</p>
-        <article class="card card-ivory reveal">
+        <article class="card card-ivory">
           <p class="label">Wedding · Muhurtham</p>
           <p class="date">Friday, 20 November 2026</p>
           <p class="time">6:15 AM</p>
@@ -138,25 +159,25 @@
       <section class="beat rsvp" id="rsvp" data-beat="rsvp">
         <h2 class="script reveal">Will you celebrate with us?</h2>
         <form class="rsvp-form" id="rsvp-form" novalidate>
-          <label class="reveal">
+          <label>
             <span>Your name</span>
             <input name="name" type="text" autocomplete="name" required />
           </label>
-          <fieldset class="reveal">
+          <fieldset>
             <legend>Will you attend?</legend>
             <label class="choice"><input type="radio" name="attending" value="yes" checked /> Joyfully accept</label>
             <label class="choice"><input type="radio" name="attending" value="no" /> Regretfully decline</label>
           </fieldset>
-          <label class="reveal guests">
+          <label class="guests">
             <span>Number of guests</span>
             <input name="guests" type="number" min="1" max="20" value="1" inputmode="numeric" />
           </label>
-          <label class="reveal">
+          <label>
             <span>Message <small>(optional)</small></span>
             <textarea name="message" rows="3"></textarea>
           </label>
           <p class="form-error" id="rsvp-error" role="alert" hidden></p>
-          <button class="btn-gold reveal" type="submit">Send RSVP</button>
+          <button class="btn-gold" type="submit">Send RSVP</button>
         </form>
         <footer class="signature">
           <p class="italic">With love,</p>

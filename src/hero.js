@@ -48,15 +48,17 @@ export function setupHero(hero, { reduceMotion }) {
       opacity: 1,
       scale: [1.06, 1],
       filter: ['blur(14px)', 'blur(0px)'],
-      duration: 1200,
-      ease: 'outQuad',
+      duration: 1800,
+      ease: 'out(3)',
     })
+    // Line by line, once the mist has mostly cleared.
     animate(lines, {
       opacity: 1,
-      translateY: [14, 0],
-      delay: stagger(110, { start: 300 }),
-      duration: 700,
-      ease: 'outQuad',
+      translateY: [16, 0],
+      filter: ['blur(6px)', 'blur(0px)'],
+      delay: stagger(180, { start: 700 }),
+      duration: 900,
+      ease: 'out(3)',
     })
   }
 }
