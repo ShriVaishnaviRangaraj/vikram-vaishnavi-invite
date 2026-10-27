@@ -33,9 +33,23 @@ function breakSeal(button) {
 export function setupGate(gate, { reduceMotion, onOpen, onOpened }) {
   const button = gate.querySelector('#gate-open')
   const video = gate.querySelector('.gate-video')
-  const breathe = reduceMotion
-    ? null
-    : animate(button, { scale: [1, 1.08], duration: 1100, ease: 'inOut(2)', loop: true, alternate: true })
+  // Idle life before the tap: the door breathes in and out, and the seal glows. The first
+  // drop-shadow repeats the seal's resting shadow from the stylesheet.
+  const idle = reduceMotion
+    ? []
+    : [
+        animate(video, { scale: [1, 1.03], duration: 6000, ease: 'inOut(2)', loop: true, alternate: true }),
+        animate(button.querySelector('.seal'), {
+          filter: [
+            'drop-shadow(0 4px 6px rgb(42 33 28 / 0.5)) drop-shadow(0 0 2px rgb(241 213 149 / 0.2))',
+            'drop-shadow(0 4px 6px rgb(42 33 28 / 0.5)) drop-shadow(0 0 16px rgb(241 213 149 / 0.85))',
+          ],
+          duration: 1600,
+          ease: 'inOut(2)',
+          loop: true,
+          alternate: true,
+        }),
+      ]
 
   button.addEventListener(
     'click',
@@ -43,7 +57,8 @@ export function setupGate(gate, { reduceMotion, onOpen, onOpened }) {
       button.disabled = true
       onOpen()
       if (!reduceMotion) {
-        breathe.cancel()
+        // Paused, not reverted, so the door clip starts from the zoom it has reached.
+        for (const anim of idle) anim.pause()
         await breakSeal(button)
         await playIntoMist(video)
       }
