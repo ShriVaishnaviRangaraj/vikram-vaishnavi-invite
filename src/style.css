@@ -529,14 +529,11 @@ p {
   color: var(--gold);
 }
 
-/* Maroon on gold is 5:1; ivory on gold is only 2.3:1. */
-.btn-gold {
+.btn-gold,
+.btn-outline {
   display: inline-block;
   margin-top: 8px;
   padding: 12px 28px;
-  border: 0;
-  background: var(--gold);
-  color: var(--maroon);
   font-family: var(--caps);
   font-size: 0.75rem;
   font-weight: 500;
@@ -544,6 +541,37 @@ p {
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
+}
+
+/* Maroon on gold is 5:1; ivory on gold is only 2.3:1. */
+.btn-gold {
+  border: 0;
+  background: var(--gold);
+  color: var(--maroon);
+}
+
+/* The secondary action. Same 1px less padding so both buttons are the same height. */
+.btn-outline {
+  padding: 11px 27px;
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--gold-deep);
+}
+
+.card-maroon .btn-outline {
+  color: var(--gold);
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.card-actions > * {
+  margin-top: 0;
 }
 
 /* Two screens of scroll; the stage pins for one while the captions hand over. */
