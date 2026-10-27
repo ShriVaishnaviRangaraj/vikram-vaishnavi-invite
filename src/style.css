@@ -490,10 +490,10 @@ p {
   cursor: pointer;
 }
 
-/* Three screens of scroll; the stage pins for the middle two while the captions hand over. */
+/* Two screens of scroll; the stage pins for one while the captions hand over. */
 .bridge {
   display: block;
-  height: 300lvh;
+  height: 200lvh;
   padding: 0;
   color: var(--ivory);
   background: var(--ink);

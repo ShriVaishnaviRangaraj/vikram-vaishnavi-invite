@@ -95,7 +95,7 @@ export function setupMotion(page) {
     reveal('.card-maroon', rise(80), { duration: 1200 })
     reveal('.card-maroon > *', rise(12), { trigger: '.card-maroon', delay: stagger(80, { start: 400 }) })
 
-    // Bridge: the corridor pins for two screens while caption A hands over to caption B.
+    // Bridge: the corridor pins for one screen while caption A hands over to caption B.
     const drift = (from, to) => (reduce ? {} : { translateY: [from, to] })
     createTimeline({ defaults: { ease: 'linear' }, autoplay: scrub('#bridge', 'top top', 'bottom bottom') })
       .add('.caption-a', { opacity: [1, 0], ...drift(0, -24), duration: 150 }, 350)
