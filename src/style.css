@@ -166,10 +166,15 @@ p {
   color: var(--rose-taupe);
 }
 
+/* Each line of the couplet stays whole; the type shrinks to fit a narrow column instead. */
 .tamil {
   font-family: var(--tamil);
-  font-size: 1rem;
+  font-size: clamp(0.78rem, 3.9vw, 1rem);
   line-height: 1.9;
+}
+
+.tamil span {
+  white-space: nowrap;
 }
 
 .placeholder {
