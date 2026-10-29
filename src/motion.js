@@ -173,7 +173,8 @@ export function setupMotion(page) {
       })
     }
 
-    // RSVP. The form unfolds on its own when opened (rsvp.js).
-    reveal('.signature > *', rise(16), { delay: stagger(200) })
+    // RSVP. The form unfolds on its own when opened (rsvp.js). The signature sits on the page's
+    // last strip, which never scrolls up far enough to trigger itself, so it follows the heading.
+    reveal('.signature > *', rise(16), { trigger: page.querySelector('.rsvp h2'), delay: stagger(200, { start: 600 }) })
   })
 }

@@ -20,10 +20,9 @@
   box-sizing: border-box;
 }
 
-/* Menu jumps land with the section's top clear of the fixed chrome. */
+/* Menu jumps land with the section's top at the screen's top; each screen clears the chrome itself. */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 48px;
 }
 
 body {
@@ -268,15 +267,19 @@ html.is-menu-open .chrome .monogram {
   background: repeating-linear-gradient(45deg, var(--cream) 0 12px, var(--ivory) 12px 24px);
 }
 
-/* Beats. Each one is as tall as its content; only the hero fills the screen. */
+/* Beats. Each one fills at least the screen, so the next never shows beneath it; the journey
+   instead fills one screen per event and one for the venue. --chrome-clear keeps content below the
+   fixed header. */
 .beat {
+  --chrome-clear: 72px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
-  padding: 48px 24px;
+  min-height: 100svh;
+  padding: var(--chrome-clear) 24px 48px;
   text-align: center;
 }
 
@@ -376,13 +379,13 @@ html.is-menu-open .chrome .monogram {
   text-shadow: 0 1px 8px rgb(42 33 28 / 0.95), 0 0 2px rgb(42 33 28 / 0.9);
 }
 
-/* The top padding keeps the text below the couple, who end about 62% down the 9:16 video. A
-   short phone grows the hero rather than letting the text cross them. */
+/* Exactly one screen, the text standing on its bottom edge, so the names and date are always on
+   the first screen. On most phones that is below the couple, who end about 62% down the 9:16
+   video; on a short one the text rises over the haze at their feet rather than off the screen. */
 .hero {
-  min-height: 100svh;
-  justify-content: flex-end;
-  padding-top: calc(min(100vw, var(--column)) * 1.1);
-  padding-bottom: 40px;
+  height: 100svh;
+  justify-content: safe flex-end;
+  padding-bottom: 32px;
 }
 
 /* Two stacked loops: the couple facing each other, then the flower shower crossfades in. */
@@ -443,13 +446,17 @@ html.is-menu-open .chrome .monogram {
   margin: -2px 0 2px;
 }
 
+/* One line, sized to fit the narrowest phone. */
 .names {
-  font-size: 3.4rem;
-  line-height: 1.05;
+  font-size: min(3rem, 10.5vw);
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
+/* The script font tucks its ampersand against both names; this gives it room. */
 .names span {
-  font-size: 0.6em;
+  margin-inline: 0.3em;
+  font-size: 0.75em;
 }
 
 .scroll-cue {
@@ -646,7 +653,7 @@ html.is-menu-open .chrome .monogram {
 .message-frame {
   position: relative;
   width: 100%;
-  max-width: 300px;
+  max-width: min(300px, (100svh - 200px) * 9 / 16 + 20px);
   padding: 10px;
   border: 1px solid var(--gold);
   outline: 1px solid var(--gold);
@@ -681,28 +688,52 @@ html.is-menu-open .chrome .monogram {
   pointer-events: none;
 }
 
+/* The heading and the first event share the journey's first screen. */
+.journey {
+  --journey-head: 104px;
+  min-height: 0;
+  gap: 0;
+  padding-block: 0;
+}
+
+.journey > h2 {
+  display: flex;
+  align-items: flex-end;
+  height: var(--journey-head);
+  padding-top: var(--chrome-clear);
+}
+
 /* The journey: the three events one after another. Each is a large portrait picture on a cream
    mount in a gold double frame, tilted a touch one way and the next the other, like prints laid on
    a table; beneath it, its day in gold capitals, its name in script and its time between rules. */
 .events {
   display: flex;
   flex-direction: column;
-  gap: 72px;
   width: 100%;
-  margin: 16px 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
+/* One screen each. */
 .event {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  min-height: 100svh;
+  padding: var(--chrome-clear) 0 32px;
 }
 
+.event:first-child {
+  min-height: calc(100svh - var(--journey-head));
+  padding-top: 16px;
+}
+
+/* Shrinks on a short phone so the picture and its lines (about 380px with the chrome) fit the screen. */
 .event-photo {
-  width: 86%;
+  width: min(86%, max(200px, (100svh - 380px) * 3 / 4));
   height: auto;
   aspect-ratio: 3 / 4;
   margin-bottom: 22px;
@@ -742,9 +773,40 @@ html.is-menu-open .chrome .monogram {
   letter-spacing: 0.04em;
 }
 
-/* "at", then the venue's name in bold capitals over its town in the serif. */
+/* The venue's own screen: "at", then its name in bold capitals over its town in the serif, centred
+   in the sky above a painted auditorium that stands on the bottom of the screen. It spans the full
+   column, out past the journey's side padding, so the painting reaches both edges. The bottom
+   padding is the painting's height below its roofline: 1.25 columns wide, 1180 / 1333 as tall, the
+   roof 30% down. */
+.venue-screen {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: calc(100% + 48px);
+  min-height: 100svh;
+  margin-inline: -24px;
+  padding: var(--chrome-clear) 24px calc(min(100vw, var(--column)) * 1.25 * 1180 / 1333 * 0.7);
+  background: var(--ivory);
+}
+
+/* As the RSVP's gopuram: multiply turns the still's paper white into the page ivory, which the
+   screen's own background has to supply inside its isolated group. Its edges are
+   already feathered to white, and a little of the outer wings is cropped to keep the hall large. */
+.venue-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url('/assets/auditorium.webp') center bottom / 125% auto no-repeat;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
 .venue-at {
-  margin-top: 30px;
   font-size: 1.2rem;
   color: var(--gold-deep);
 }
@@ -1019,14 +1081,17 @@ html.is-menu-open .chrome .monogram {
   }
 }
 
-/* The last screen of the invitation: exactly the screen's height, so the page ends with the
-   heading at the top and the gopuram standing on the bottom edge. Never shorter than the gopuram
-   itself, so the still never spills over the journey above while the form is closed. */
+/* The last screen of the invitation: at least the screen's height, so the page ends with the
+   gopuram standing on the bottom edge, and never shorter than the gopuram itself, so the still
+   never spills over the journey above. The question and its button sit centred in the sky: the
+   bottom padding keeps them, and the form when it opens, clear of the tower, whose top is 860 of
+   the still's 1913px. The couple's signature signs off in the mist at its foot. */
 .rsvp {
-  --paper-below: min(100vw, var(--column)) * 230 / 1080;
+  --still-width: min(100vw, var(--column));
+  --paper-below: var(--still-width) * 230 / 1080;
   isolation: isolate;
-  min-height: max(100svh, min(100vw, var(--column)) * 1913 / 1080 - var(--paper-below));
-  justify-content: flex-start;
+  min-height: max(100svh, var(--still-width) * 1913 / 1080 - var(--paper-below));
+  padding-bottom: calc(var(--still-width) * (1913 - 230 - 860) / 1080 + 24px);
   overflow: clip;
   background: var(--ivory);
 }
@@ -1049,6 +1114,12 @@ html.is-menu-open .chrome .monogram {
 
 .rsvp h2 {
   font-size: 2.4rem;
+}
+
+/* The page's one essential tap, so larger than the standard button. */
+.rsvp > .btn-gold {
+  padding: 16px 56px;
+  font-size: 0.95rem;
 }
 
 .rsvp-form {
@@ -1128,6 +1199,14 @@ html.is-menu-open .chrome .monogram {
 
 .rsvp-form .btn-gold {
   align-self: center;
+}
+
+/* Centred on the mist, which lies about 140px of the still's width above the section's bottom. */
+.signature {
+  position: absolute;
+  right: 0;
+  bottom: max(12px, var(--still-width) * 140 / 1080 - 36px);
+  left: 0;
 }
 
 .signature .script {

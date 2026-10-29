@@ -228,6 +228,13 @@ Gopuram prompt:
 A faint South Indian temple gopuram tower seen from a distance, centred in the lower half of the frame, its base hidden in soft morning mist, a few coconut palms faint on either side. The tower is a pale silhouette of carved tiers in thin pencil lines and the lightest cream and gold watercolour washes, almost fading into the paper. The upper half is empty pale ivory sky. Very low contrast, washed out, like a watermark: nothing darker than light tan. Hand-painted storybook style matching the reference image: delicate pencil linework, warm translucent watercolour washes, soft diffused light, subtle paper texture. Everything fades into plain warm ivory paper at the edges. No people, no text, no border, no frame.
 ```
 
+Auditorium (the venue screen's backdrop): painted outside the project and supplied by the couple.
+
+| File | Use |
+|---|---|
+| `docs/art-direction/auditorium.png` | Master as supplied, 1333×1180 |
+| `public/assets/auditorium.webp` | Web copy, 1080×956, ~47 KB. Its cream paper is divided out to white and every edge feathered to white, so the `multiply` layer behind the venue blends into the page ivory with no seam. |
+
 ### Corridor loop
 
 An endless walk forward through the pillars, as in the reference reel's bridge.

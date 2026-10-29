@@ -41,10 +41,10 @@ const message = setupMessage(document.querySelector('#message'), {
 // glide that carries the petals down into the countdown, then on to the couple's message (held
 // until it ends), each event of the journey, the venue and the RSVP, pausing at each (tour.js).
 const startTour = createTour([
-  { el: document.querySelector('#countdown'), duration: 6000, hold: pause(4000) },
-  { el: document.querySelector('.message-frame'), hold: message.untilEnded },
+  { el: document.querySelector('#welcome'), duration: 6000, hold: pause(4000) },
+  { el: document.querySelector('#message'), hold: message.untilEnded },
   ...[...document.querySelectorAll('.event')].map((el) => ({ el, hold: pause(4500) })),
-  { el: document.querySelector('.venue-at'), align: 'top', hold: pause(4500) },
+  { el: document.querySelector('.venue-screen'), hold: pause(4500) },
   { el: document.querySelector('#rsvp'), align: 'end' },
 ])
 
