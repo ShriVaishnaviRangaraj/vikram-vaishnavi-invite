@@ -774,10 +774,129 @@ html.is-menu-open .chrome .monogram {
 .journey-actions .btn-outline {
   margin-top: 0;
   padding-inline: 4px;
+  line-height: inherit;
   font-size: 0.62rem;
   letter-spacing: 0.1em;
   white-space: nowrap;
   text-align: center;
+}
+
+/* The calendar choices, unfolding under the buttons: small rose-glass pills under each heading. */
+.calendar {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  width: 100%;
+  margin-top: 4px;
+  padding: 16px 12px 18px;
+  border: 1px solid rgb(140 90 94 / 0.3);
+  border-radius: 22px;
+  background: rgb(214 160 168 / 0.14);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.calendar .label + .calendar-row {
+  margin-top: -2px;
+}
+
+.calendar-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.chip {
+  padding: 8px 16px;
+  border: 1px solid rgb(140 90 94 / 0.55);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.4);
+  font-family: var(--caps);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--maroon);
+  transition:
+    translate 0.3s ease,
+    scale 0.15s ease,
+    background-color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .chip:hover {
+    translate: 0 -2px;
+    background-color: rgb(214 160 168 / 0.42);
+  }
+}
+
+.chip:active {
+  scale: 0.95;
+  background-color: rgb(214 160 168 / 0.58);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--gold-deep);
+  outline-offset: 3px;
+}
+
+/* A bare ×, in the top corner of the calendar choices and the RSVP form; the button stays 32px
+   round so it is easy to tap. */
+.close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--maroon);
+  cursor: pointer;
+  transition:
+    rotate 0.3s ease,
+    scale 0.15s ease,
+    color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The form has no card around it, so its × sits beside the first label, clear of the name box. */
+.rsvp-form .close {
+  z-index: 1;
+  top: -30px;
+  right: 0;
+}
+
+.close svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+@media (hover: hover) {
+  .close:hover {
+    rotate: 90deg;
+    color: var(--gold-deep);
+  }
+}
+
+.close:active {
+  scale: 0.85;
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--gold-deep);
+  outline-offset: 3px;
 }
 
 /* Pill buttons of tinted glass: the page shows through, softly blurred, behind a fine gold rim and
@@ -904,19 +1023,21 @@ html.is-menu-open .chrome .monogram {
    heading at the top and the gopuram standing on the bottom edge. Never shorter than the gopuram
    itself, so the still never spills over the journey above while the form is closed. */
 .rsvp {
+  --paper-below: min(100vw, var(--column)) * 230 / 1080;
   isolation: isolate;
-  min-height: max(100svh, min(100vw, var(--column)) * 1913 / 1080);
+  min-height: max(100svh, min(100vw, var(--column)) * 1913 / 1080 - var(--paper-below));
   justify-content: flex-start;
   overflow: clip;
   background: var(--ivory);
 }
 
-/* Multiply turns the still's paper white into the page ivory; the mask feathers its top edge. */
+/* Multiply turns the still's paper white into the page ivory; the mask feathers its top edge. The
+   bare paper under the mist (the still's bottom 230 of 1913px) hangs below the section, clipped. */
 .rsvp::before {
   content: '';
   position: absolute;
   right: 0;
-  bottom: 0;
+  bottom: calc(-1 * var(--paper-below));
   left: 0;
   z-index: -1;
   aspect-ratio: 1080 / 1913;
@@ -931,6 +1052,7 @@ html.is-menu-open .chrome .monogram {
 }
 
 .rsvp-form {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 16px;

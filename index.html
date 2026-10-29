@@ -321,7 +321,23 @@
         <p class="venue reveal"><span class="venue-name">Brindavan Auditorium</span><br />Chinniyampalayam, Coimbatore</p>
         <div class="journey-actions reveal">
           <a class="btn-gold" href="https://www.google.com/maps/search/?api=1&amp;query=Brindavan+Auditorium+Chinniyampalayam+Coimbatore" target="_blank" rel="noopener">View location</a>
-          <a class="btn-outline" href="/wedding.ics">Add to calendar</a>
+          <button class="btn-outline" id="calendar-open" type="button" aria-expanded="false" aria-controls="calendar">Add to calendar</button>
+        </div>
+        <!-- Google takes one event per link; every other calendar app reads all three from the file. -->
+        <div class="calendar" id="calendar" hidden>
+          <button class="close" id="calendar-close" type="button" aria-label="Close">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4L12 12M12 4L4 12" /></svg>
+          </button>
+          <p class="label">Google Calendar</p>
+          <div class="calendar-row">
+            <a class="chip" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Vikram+%26+Vaishnavi+-+Nalangu&amp;dates=20261119T123000Z/20261119T134500Z&amp;location=Brindavan+Auditorium,+Chinniyampalayam,+Coimbatore&amp;details=Nalangu.+6:00+to+7:15+PM.+https://vikram-vaishnavi-invite.vercel.app" target="_blank" rel="noopener">Nalangu</a>
+            <a class="chip" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Vikram+%26+Vaishnavi+-+Reception&amp;dates=20261119T140000Z/20261119T170000Z&amp;location=Brindavan+Auditorium,+Chinniyampalayam,+Coimbatore&amp;details=Reception.+7:30+PM+onwards.+https://vikram-vaishnavi-invite.vercel.app" target="_blank" rel="noopener">Reception</a>
+            <a class="chip" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Vikram+%26+Vaishnavi+-+Muhurtham&amp;dates=20261120T004500Z/20261120T024500Z&amp;location=Brindavan+Auditorium,+Chinniyampalayam,+Coimbatore&amp;details=Wedding+muhurtham+at+6:15+AM.+https://vikram-vaishnavi-invite.vercel.app" target="_blank" rel="noopener">Muhurtham</a>
+          </div>
+          <p class="label">Apple · Outlook · others</p>
+          <div class="calendar-row">
+            <a class="chip" href="/wedding.ics">All three events</a>
+          </div>
         </div>
       </section>
 
@@ -330,6 +346,9 @@
         <h2 class="script reveal">Will you celebrate with us?</h2>
         <button class="btn-gold reveal" id="rsvp-open" type="button" aria-controls="rsvp-form">RSVP</button>
         <form class="rsvp-form" id="rsvp-form" novalidate hidden>
+          <button class="close" id="rsvp-close" type="button" aria-label="Close">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4L12 12M12 4L4 12" /></svg>
+          </button>
           <label>
             <span>Your name</span>
             <input name="name" type="text" autocomplete="name" maxlength="100" required />

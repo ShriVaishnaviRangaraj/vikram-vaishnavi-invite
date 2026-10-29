@@ -44,7 +44,7 @@ const startTour = createTour([
   { el: document.querySelector('#countdown'), duration: 6000, hold: pause(4000) },
   { el: document.querySelector('.message-frame'), hold: message.untilEnded },
   ...[...document.querySelectorAll('.event')].map((el) => ({ el, hold: pause(4500) })),
-  { el: document.querySelector('.journey-actions'), hold: pause(3000) },
+  { el: document.querySelector('.venue-at'), align: 'top', hold: pause(4500) },
   { el: document.querySelector('#rsvp'), align: 'end' },
 ])
 
@@ -70,3 +70,16 @@ setupRsvp({
   reduceMotion,
 })
 setupMotion(document.querySelector('.page'))
+
+// "Add to calendar" opens and closes the choice of calendars beneath it, as does its ×.
+const calendarOpen = document.querySelector('#calendar-open')
+const calendar = document.querySelector('#calendar')
+const showCalendar = (shown) => {
+  calendar.hidden = !shown
+  calendarOpen.setAttribute('aria-expanded', String(shown))
+}
+calendarOpen.addEventListener('click', () => showCalendar(calendar.hidden))
+document.querySelector('#calendar-close').addEventListener('click', () => {
+  showCalendar(false)
+  calendarOpen.focus({ preventScroll: true })
+})

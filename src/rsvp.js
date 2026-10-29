@@ -60,6 +60,13 @@ export function setupRsvp({ opener, form, error, thanks, accessKey, reduceMotion
     form.elements.name.focus({ preventScroll: true })
   })
 
+  // The × folds the form away again, keeping what was typed, and brings the button back.
+  form.querySelector('.close').addEventListener('click', () => {
+    form.hidden = true
+    opener.hidden = false
+    opener.focus({ preventScroll: true })
+  })
+
   const submit = form.querySelector('button[type=submit]')
   form.addEventListener('submit', async (event) => {
     event.preventDefault()
