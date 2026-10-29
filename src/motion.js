@@ -1,13 +1,14 @@
-import { animate, createDrawable, createScope, createTimeline, onScroll, stagger, utils } from 'animejs'
+import { animate, createDrawable, createScope, onScroll, stagger, utils } from 'animejs'
 
 // The trigger's top has crossed 85% of the viewport.
 const IN_VIEW = 'bottom-=15% top'
 const REST = { opacity: 1, translateX: 0, translateY: 0, scale: 1, rotate: 0 }
-
-const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+// Rose and marigold petals continuing the hero's flower shower down to the countdown.
+const PETALS = 12
+const SVG = 'http://www.w3.org/2000/svg'
 
 // Every scroll-driven beat after the hero intro. Under reduced motion each one collapses to a
-// plain opacity fade, the scrubs keep only opacity and colour, and the corridor stays on its poster.
+// plain opacity fade and the scrubs keep only opacity and colour.
 export function setupMotion(page) {
   return createScope({ root: page, mediaQueries: { reduce: '(prefers-reduced-motion: reduce)' } }).add((scope) => {
     const reduce = scope.matches.reduce
@@ -41,14 +42,6 @@ export function setupMotion(page) {
 
     const rise = (y) => ({ opacity: 0, translateY: y })
 
-    // Line art draws its strokes in, centre first, once it scrolls into view.
-    const drawIn = (svg) => {
-      if (reduce) return reveal(svg, { opacity: 0 })
-      const strokes = createDrawable(`${svg} path`)
-      utils.set(strokes, { draw: '0 0' })
-      onceInView(svg, () => animate(strokes, { draw: '0 1', duration: 1400, delay: stagger(110), ease: 'inOut(2)' }))
-    }
-
     // Hero exit: the names drift up and fade, then the hero dissolves to ivory.
     animate('.hero-text', {
       opacity: [1, 0],
@@ -68,96 +61,119 @@ export function setupMotion(page) {
 
     for (const el of utils.$('.reveal')) reveal(el, rise(24))
 
-    // Welcome + countdown
-    drawIn('.welcome .divider')
-    reveal('.countdown > div', rise(16), { trigger: '.countdown', delay: stagger(90) })
-
-    // Thirukkural
-    reveal('.kural > *', rise(20), { trigger: '.kural', delay: stagger(180) })
-
-    // Divine scene: the still rises in, then drifts slower than the page.
-    reveal('.divine-frame', rise(80), { duration: 1400 })
-    if (!reduce) {
-      animate('.divine-still', { translateY: ['-8%', '8%'], ease: 'linear', autoplay: scrub('#divine', 'bottom top', 'top bottom') })
-    }
-
-    // Timeline: the centre line draws with the scroll; each event comes in from its side.
+    // Welcome + countdown. The lotus opens, the creeper grows out from it to both sides, and its
+    // leaves and flowers open in order along the vine.
     if (reduce) {
-      reveal('.timeline-line', { opacity: 0 })
+      reveal('.welcome .divider', { opacity: 0 })
     } else {
-      animate(createDrawable('.timeline-line line'), {
-        draw: ['0 0', '0 1'],
+      const vines = createDrawable('.welcome .divider .vine')
+      const blooms = '.welcome .divider .bloom'
+      utils.set(vines, { draw: '0 0' })
+      utils.set(blooms, { scale: 0, opacity: 0 })
+      onceInView('.welcome .divider', () => {
+        animate(vines, { draw: '0 1', delay: 300, duration: 1600, ease: 'inOut(2)' })
+        animate(blooms, { scale: 1, opacity: 1, delay: (el) => 160 * el.dataset.order, duration: 700, ease: 'out(3)' })
+      })
+    }
+    // The hero's petals keep falling with the scroll that brings the countdown from the bottom of
+    // the screen to its centre, fading before they reach it. Four flowers fall among them as small
+    // closed buds, flipping as they go; near the countdown they grow, turn to face the guest and
+    // bloom open as they land with a ripple of gold light, and the numbers surface as each
+    // settles. They then turn slowly (in the stylesheet). The fall only follows the scroll down:
+    // scrolling back up, the petals still in the air fade away and the flowers finish landing,
+    // and once the countdown is back below the screen it all resets for the next way down.
+    // Emptied first: the scope re-runs this when the reduced-motion setting changes.
+    page.querySelector('.petal-shower').replaceChildren(
+      ...Array.from({ length: PETALS }, (_, i) => {
+        const petal = document.createElementNS(SVG, 'svg')
+        petal.setAttribute('class', i % 3 ? 'rose-petal' : 'rose-petal marigold')
+        petal.innerHTML = '<use href="#rose-petal" />'
+        Object.assign(petal.style, { left: `${utils.random(4, 92)}%`, top: `${utils.random(0, 35)}%`, width: `${utils.random(10, 18)}px` })
+        return petal
+      }),
+    )
+    if (reduce) {
+      reveal('.countdown > div', { opacity: 0 }, { trigger: '.countdown', delay: stagger(90) })
+    } else {
+      const drop = window.innerHeight
+      const shower = animate('.rose-petal', {
+        translateY: () => drop * utils.random(0.8, 1.2, 2),
+        translateX: [{ to: () => utils.random(-40, 40) }, { to: () => utils.random(-40, 40) }, { to: () => utils.random(-20, 20) }],
+        rotate: () => utils.random(-360, 360),
+        rotateX: () => utils.random(-180, 180),
+        opacity: [{ to: 1, duration: 150 }, { to: 1, duration: 550 }, { to: 0, duration: 300 }],
+        duration: 1000,
         ease: 'linear',
-        autoplay: scrub('.timeline', 'bottom-=20% top', 'center+=10% bottom'),
+        autoplay: false,
       })
-    }
-    for (const event of utils.$('.event')) {
-      reveal(event, { opacity: 0, translateX: event.classList.contains('left') ? -32 : 32 })
-    }
 
-    // The chrome sits outside the scope's root, so it is looked up on the document.
-    const chrome = document.querySelector('.chrome')
-    const darkUnderHeader = new Set()
-    for (const beat of ['#reception', '#bridge']) {
-      const mark = (on) => {
-        on ? darkUnderHeader.add(beat) : darkUnderHeader.delete(beat)
-        chrome.classList.toggle('is-on-dark', darkUnderHeader.size > 0)
+      utils.set('.countdown > div', { opacity: 0, scale: 0.3, '--bloom': 0.35, '--land': 0, '--ripple': 0 })
+      const flowers = animate('.countdown > div', {
+        translateY: { from: () => -drop * utils.random(0.8, 1, 2), to: 0, ease: 'out(1.5)' },
+        translateX: [
+          { to: () => utils.random(-50, 50), ease: 'inOut(2)' },
+          { to: () => utils.random(-40, 40), ease: 'inOut(2)' },
+          { to: 0, ease: 'inOut(2)' },
+        ],
+        rotate: { from: () => utils.random(-200, 200), to: 0, ease: 'out(2)' },
+        rotateY: { from: () => (utils.random(0, 1) ? 540 : -540), to: 0, ease: 'out(3)' },
+        scale: [{ to: 0.3, duration: 550 }, { to: 1, duration: 350, ease: 'out(3)' }, { to: 1, duration: 100 }],
+        '--bloom': [{ to: 0.35, duration: 700 }, { to: 1, duration: 300, ease: 'out(3)' }],
+        opacity: [{ to: 1, duration: 120 }, { to: 1, duration: 880 }],
+        '--land': [{ to: 0, duration: 800 }, { to: 1, duration: 200 }],
+        '--ripple': [{ to: 0, duration: 860 }, { to: 1, duration: 140 }],
+        duration: 1000,
+        ease: 'linear',
+        autoplay: false,
+      })
+
+      // How far down the fall has been scrolled; it never goes back until the reset.
+      let reached = 0
+      let settle = null
+      const showAt = (progress) => {
+        reached = progress
+        shower.seek(progress * shower.duration)
+        flowers.seek(progress * flowers.duration)
       }
-      // In view while the beat spans the header's middle line, 32px down.
       onScroll({
-        target: beat,
-        enter: 'top+=32 top',
-        leave: 'top+=32 bottom',
-        onEnter: () => mark(true),
-        onLeave: () => mark(false),
+        target: '.countdown',
+        enter: 'bottom top',
+        leave: 'center center',
+        onUpdate: (self) => {
+          if (!self.backward) {
+            if (self.progress > reached) showAt(self.progress)
+            return
+          }
+          if (reached === 0 || reached === 1) return
+          const from = { progress: reached }
+          reached = 1
+          animate('.petal-shower', { opacity: 0, duration: 300, ease: 'out(2)' })
+          settle = animate(from, {
+            progress: 1,
+            duration: 700,
+            ease: 'out(2)',
+            onUpdate: () => flowers.seek(from.progress * flowers.duration),
+          })
+        },
+        onLeaveBackward: () => {
+          settle?.pause()
+          utils.set('.petal-shower', { opacity: 1 })
+          showAt(0)
+        },
       })
     }
 
-    // Reception: the page flips from ivory to maroon, then the card rises.
-    animate('#reception', {
-      backgroundColor: [token('--ivory'), token('--maroon')],
-      ease: 'linear',
-      autoplay: scrub('#reception', 'bottom top', 'center top'),
-    })
-    reveal('.card-maroon', rise(80), { duration: 1200 })
-    reveal('.card-maroon > *', rise(12), { trigger: '.card-maroon', delay: stagger(80, { start: 400 }) })
-
-    // Bridge: the corridor pins for one screen while caption A hands over to caption B, and its
-    // light turns from lamp-lit evening to dawn. The grade is a colour fade, so it stays under
-    // reduced motion, applied to the paused poster.
-    const drift = (from, to) => (reduce ? {} : { translateY: [from, to] })
-    const EVENING = 'sepia(0.35) saturate(1.3) brightness(0.8) hue-rotate(-8deg)'
-    const DAWN = 'sepia(0) saturate(0.85) brightness(1.15) hue-rotate(10deg)'
-    createTimeline({ defaults: { ease: 'linear' }, autoplay: scrub('#bridge', 'top top', 'bottom bottom') })
-      .add('.corridor', { filter: [EVENING, DAWN], duration: 1000, ease: 'inOut(2)' }, 0)
-      .add('.caption-a', { opacity: [1, 0], ...drift(0, -24), duration: 150 }, 350)
-      .add('.caption-b', { opacity: [0, 1], ...drift(24, 0), duration: 150 }, 500)
-      .add('.caption-b', { opacity: 1, duration: 350 }, 650)
-    const corridor = utils.$('.corridor')[0]
-    if (reduce) {
-      corridor.pause()
-      // load() puts a played video back on its poster.
-      if (corridor.currentTime) corridor.load()
-    } else {
-      onScroll({
-        target: '#bridge',
-        onEnter: () => corridor.play().catch(() => {}),
-        onLeave: () => corridor.pause(),
+    // Journey: as each event comes into view its picture rises in and settles, then its lines
+    // follow one by one.
+    for (const event of utils.$('.event')) {
+      reveal(event.querySelector('.event-photo'), { ...rise(48), scale: 0.94 }, { duration: 1200 })
+      reveal(event.querySelectorAll(':scope > :not(.event-photo)'), rise(12), {
+        trigger: event.querySelector('.event-photo'),
+        delay: stagger(110, { start: 500 }),
       })
     }
 
-    // Muhurtham: the lotus ornament draws in, then the card rises.
-    drawIn('.ornament')
-    reveal('.card-ivory', { ...rise(80), scale: 0.96 }, { duration: 1200 })
-    reveal('.card-ivory > :not(.jasmine)', rise(12), { trigger: '.card-ivory', delay: stagger(80, { start: 400 }) })
-    reveal('.jasmine', { opacity: 0, scale: 0.3 }, { trigger: '.card-ivory', delay: stagger(200, { start: 600 }) })
-
-    // Nalangu: the card blooms up from a slight tilt, then its lines follow.
-    reveal('.card-blush', { ...rise(60), scale: 0.9, rotate: -2 }, { duration: 1300 })
-    reveal('.card-blush > *', rise(12), { trigger: '.card-blush', delay: stagger(80, { start: 450 }) })
-
-    // RSVP
-    reveal('.rsvp-form > :is(label, fieldset, button)', rise(20), { trigger: '.rsvp-form', delay: stagger(110) })
+    // RSVP. The form unfolds on its own when opened (rsvp.js).
     reveal('.signature > *', rise(16), { delay: stagger(200) })
   })
 }

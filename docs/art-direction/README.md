@@ -246,3 +246,17 @@ An endless walk forward through the pillars, as in the reference reel's bridge.
 ```text
 The first image is the first frame and the second image is the last frame of the video; they are identical, so the clip must loop seamlessly. The camera glides forward at a slow, perfectly constant speed straight down the centre of this temple corridor, eye level, with no tilt, no pan and no rotation. Over the whole clip it travels exactly one bay: the nearest pair of carved pillars and their brass lamps pass out of the frame at the left and right edges, while the next pair of pillars ahead grows to take exactly their place, so the final frame lines up perfectly with the first. Endless walk through the pillars. The oil-lamp flames flicker gently and the garlands sway slightly. Keep the hand-painted watercolour storybook style, the warm light and the architecture of the image exactly. No people, no text.
 ```
+
+## Wedding journey pictures
+
+The journey section shows the three events one after another. Each is a large 3:4 portrait picture on a cream mount in a gold double frame, over its day, name and time. A picture not yet made shows as a plain framed mount (`.event-photo.placeholder` in `index.html`).
+
+| File | Event | Picture |
+|---|---|---|
+| `public/assets/journey-nalangu.webp` | Nalangu, Thu 19 Nov, 6:00 PM | Family shower the seated couple with turmeric |
+| `public/assets/journey-reception.webp` | Reception, Thu 19 Nov, 7:30 PM | The couple at the evening reception, in lehenga and suit |
+| `public/assets/journey-muhurtham.webp` | Muhurtham, Fri 20 Nov, 6:15 AM | The couple exchange varamala; shirt and panchakacham, gold saree with a red border |
+
+- **Generate:** 3:4 portrait, at least 1086×1448, with `couple-key.png` as the first reference and one of the finished journey pictures as the second, for a matching style: warm, richly coloured watercolour with painted edges, the couple large and central.
+- **Shown at:** about 86% of the column, so up to about 340×450 CSS px.
+- **Web copy:** 900×1200 WebP at quality 0.72, about 150 KB each, made in headless Edge (canvas `toDataURL('image/webp')`) as no image tools are installed.
